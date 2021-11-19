@@ -1,28 +1,13 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, Text, TextInput, Image, FlatList, Dimensions, SafeAreaView, TouchableOpacity } from 'react-native';
+import React from 'react';
+import {View, StyleSheet, Text, TextInput, Image, FlatList, TouchableOpacity, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ProductData from '../asset/products.ts';
-import {createStackNavigator} from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import Constant from 'expo-constants';
+import Constants from 'expo-constants'
+import {openDrawer} from '@react-navigation/drawer';
 
+import QuantitySelector from '../component/quantityselector.js';
+import CartItems from '../asset/cart.ts';
 import ProductScreen from './product.js';
 
-function randNum(){
-return Math.floor(Math.random() * 100)
-}
-
-const ListHeaderComponent = () =>{
-return(
-    <View style = {styles.header}>
-        <Image
-            source = {require('../asset/GearTechLogo2.jpg')}
-            style = {styles.logo}
-        />
-    </View>
-)
-}
 
 const renderItem = ({item}, navigation) =>{
 //const [ratingStars, setStars] = useState([])
@@ -51,6 +36,7 @@ function ConvertRating(rating){
     return ratingArray;
 }
 
+// 11/17/21 the navigation is not working at the moment
 const viewProduct = () =>{
     navigation.navigate('ProductScreen', {ProductID: item.id})
 }
@@ -59,66 +45,86 @@ return(
 <TouchableOpacity onPress = {viewProduct} >
     <View style = {styles.wholeContainer}>
         <View style = {styles.productContainer}>
-        <Image source = {{uri: item.image}} style = {styles.image} resizeMode = 'contain'/>
+        <Image source = {{uri: item.item.image}} style = {styles.image} resizeMode = 'contain'/>
         <View style = {styles.textInfo}>
-            <Text style = {styles.title}>{item.title}</Text>
+            <Text style = {styles.title}>{item.item.title}</Text>
             <View style = {styles.rating}>
-                {ConvertRating(item.avgRating)}
+                {ConvertRating(item.item.avgRating)}
                 <View style = {styles.textRating}>
                 {item.ratings != 0 ?
-                <Text>{item.ratings}</Text>
+                <Text>{item.item.ratings}</Text>
                 :
                 <Text>0</Text>
                 }
                 <Text> ratings</Text>
                 </View>
             </View>
-            <Text>Price: ${item.price}</Text>
-            {item.oldPrice && <View style = {{flexDirection: 'row'}}>
+            <Text>Price: ${item.item.price}</Text>
+            {item.item.oldPrice && <View style = {{flexDirection: 'row'}}>
                 <Text>Old Price: </Text>
-                <Text style = {{textDecorationLine: 'line-through'}}>${item.oldPrice}</Text></View>}
+                <Text style = {{textDecorationLine: 'line-through'}}>${item.item.oldPrice}</Text></View>}
         </View>
         </View>
     </View>
 </TouchableOpacity >
 )
 }
-const Home = ({navigation}) =>{
+
+const ShoppingCart = ({navigation}) =>{
 return(
-    <SafeAreaView style = {styles.container}>
+    <View style = {styles.container}>
         <FlatList
-            data = {ProductData}
+            data = {CartItems}
             renderItem = {(item) => renderItem(item, navigation)}
-            ListHeaderComponent = {ListHeaderComponent}
+            keyExtractor={(item, index) => index.toString()}
         />
-    </SafeAreaView>
+    </View>
 )
 }
 
-export default Home;
+export default ShoppingCart;
 
 const winWidth = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
+  backButton: {
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#d0d0d0',
+    marginHorizontal: 10,
+  },
+  backButtonText:{
+    fontSize: 15,
+    padding: 5,
+  },
 container: {
     alignItems: 'center',
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#f3f3f3',
- //   paddingTop: Constant.statusBarHeight,
+    //paddingTop: Constants.statusBarHeight,
 },
-header: {
-    backgroundColor: '#fff',
-    width: winWidth,
-    height: 100,
+header:{
+  width: winWidth,
+  height: '10%',
+  borderBottomWidth: 1,
+  borderBottomColor: '#000',
+  alignItems: 'center',
+  flexDirection: 'row',
+  justifyContent: 'space-around',
 },
-image: {
+headerTitle: {
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginVertical: 10,
+},
+image:{
     width: 100,
     height: 100,
+    margin: 10,
 },
-logo: {
-    width: winWidth,
-    height: '100%',
-},
+  menuButton:{
+    marginHorizontal: 10,
+    justifyContent: 'flex-end',
+  },
 productContainer:{
     width: winWidth,
     flexDirection: 'row',
