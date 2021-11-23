@@ -41,7 +41,9 @@ const handleTextChange = val =>{
 
 return(
     <View style = {styles.container}>
+        <View style = {{marginHorizontal: 32,}}>
         <Text>Quantity</Text>
+        </View>
         <View style = {styles.counterContainer}>
            <TouchableOpacity onPress ={decrement}><View style = {[styles.button, styles.subtractButton]}><Text>-</Text></View></TouchableOpacity>
            <View style = {[styles.button, {backgroundColor: '#fff'}]}>
@@ -57,8 +59,8 @@ export default QuantitySelector;
 
 const styles = StyleSheet.create({
 button:{
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderColor: "#000",
     borderWidth: 1,
     alignItems: 'center',
@@ -66,17 +68,18 @@ button:{
     backgroundColor: '#c0c0c0',
 },
 subtractButton:{
-    borderTopLeftRadius: 10,
-    borderBottomLeftRadius: 10,
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
 },
 addButton:{
-    borderTopRightRadius: 10,
-    borderBottomRightRadius: 10,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
 },
 container: {
-    alignItems: 'center',
+   // alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
+    margin: 5,
 },
 counterContainer:{
     flexDirection: 'row',

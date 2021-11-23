@@ -11,14 +11,15 @@ import {Drawer} from 'react-native-paper';
 import Home from './home.js';
 import ProductScreen from './product.js';
 import ShoppingCartScreen from './ShoppingCart.js';
+import SearchScreen from './search.js';
 
 const popAction = StackActions.pop(1);
 export function DrawerContent(props) {
 return (
 <View style = {styles.drawerContainer}>
     <DrawerContentScrollView {...props}>
-        <View>
-            <Text>Menu</Text>
+        <View style = {styles.title}>
+            <Text style = {{fontSize: 20,}}>Menu</Text>
         </View>
            <DrawerItem
                icon={({color, size}) => (
@@ -41,6 +42,19 @@ return (
                )}
                label = "Shopping Cart"
                onPress = {()=>{props.navigation.navigate('ShoppingCartScreen')}}
+               style = {styles.drawerItem}
+
+           />
+           <DrawerItem
+               icon={({color, size}) => (
+                   <Icon
+                       name='search'
+                       color={color}
+                       size={size}
+                   />
+               )}
+               label = "Search for a product"
+               onPress = {()=>{props.navigation.navigate('SearchScreen')}}
                style = {styles.drawerItem}
 
            />
@@ -69,5 +83,10 @@ const styles = StyleSheet.create({
   drawerItem:{},
   menuButton:{
     marginLeft: 10,
+  },
+  title: {
+    marginHorizontal: 20,
+    fontWeight: 'bold',
+
   },
 });

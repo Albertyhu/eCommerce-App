@@ -11,6 +11,7 @@ import Home from './screen/home.js';
 import ProductScreen from './screen/product.js';
 import ShoppingCartScreen from './screen/ShoppingCart.js';
 import RootStack from './screen/rootstack.js';
+import CheckOutScreen from './screen/checkout.js';
 import {DrawerContent} from './screen/DrawerContent.js';
 
 const Stack = createStackNavigator();
@@ -27,9 +28,7 @@ export default function App() {
         <Drawer.Screen name = 'RootStack' component = {RootStack} options = {{
             title: "Home",
         }}/>
-        <Drawer.Screen name = 'ShoppingCart' component = {ShoppingCartScreen} options = {{
-            title: 'Shopping Cart',
-        }} />
+
     </Drawer.Navigator>
   </NavigationContainer>
   );

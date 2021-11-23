@@ -10,6 +10,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Home from './home.js';
 import ProductScreen from './product.js';
 import ShoppingCartScreen from './ShoppingCart.js';
+import CheckOutScreen from './checkout.js';
+import SearchScreen from './search.js';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -35,6 +37,7 @@ export default function RootStack({navigation}) {
                 </TouchableOpacity>),
 
         }} />
+
         <Stack.Screen name = 'ShoppingCartScreen' component = {ShoppingCartScreen} options = {{
             title: "Shopping Cart",
             headerLeft: ()=>(<Icon name = 'ios-menu' color = '#000' size = {25} onPress = {navigation.openDrawer} style = {styles.menuButton}/> ),
@@ -45,6 +48,26 @@ export default function RootStack({navigation}) {
                                       </TouchableOpacity>)
                      }}
          />
+        <Stack.Screen name='CheckOutScreen' component = {CheckOutScreen} options = {{
+            title: "Check Out",
+            headerLeft: ()=>(<Icon name = 'ios-menu' color = '#000' size = {25} onPress = {navigation.openDrawer} style = {styles.menuButton}/> ),
+            headerRight: ()=>( <TouchableOpacity style = {styles.backButton} onPress = {() =>navigation.goBack()}>
+                                          <View>
+                                              <Text style = {styles.backButtonText}>Go Back</Text>
+                                          </View>
+                            </TouchableOpacity>)
+                     }}
+         />
+       <Stack.Screen name='SearchScreen' component = {SearchScreen} options = {{
+           title: "Search Out",
+           headerLeft: ()=>(<Icon name = 'ios-menu' color = '#000' size = {25} onPress = {navigation.openDrawer} style = {styles.menuButton}/> ),
+           headerRight: ()=>( <TouchableOpacity style = {styles.backButton} onPress = {() =>navigation.goBack()}>
+                                         <View>
+                                             <Text style = {styles.backButtonText}>Go Back</Text>
+                                         </View>
+                           </TouchableOpacity>)
+                    }}
+        />
     </Stack.Navigator>
   );
 }

@@ -7,7 +7,45 @@ import {openDrawer} from '@react-navigation/drawer';
 import QuantitySelector from '../component/quantityselector.js';
 import CartItems from '../asset/cart.ts';
 import ProductScreen from './product.js';
+import CheckOutScreen from './checkout.js';
 
+//Calculates total price of all items in shopping cart
+export const CalcTotal = data => {
+
+    const totalItems = data.reduce((previous, current) =>{
+        return previous + current.quantity;
+    }, 0)
+     const sumTotal = data.reduce((previous, current)=>{
+        return previous + (current.quantity * current.item.price)
+
+     }, 0)
+
+
+return(
+    <View style = {styles.sumTotal} >
+        <Text>{`Subtotal [ ${totalItems} items ]: $${Math.round(sumTotal * 100) / 100}`}</Text>
+    </View>
+)
+}
+
+const renderHeader = (item, navigation) =>{
+return(
+    <View styles = {styles.checkoutContainer}>
+        {item ?
+            CalcTotal(item)
+            :
+            <View>
+                <Text>There are currently no items in the cart</Text>
+            </View>
+            }
+        <TouchableOpacity onPress = {()=>{navigation.navigate('CheckOutScreen')}}>
+            <View style = {styles.checkoutButton}>
+                <Text style = {styles.checkoutButtonText}>Proceed to Check Out</Text>
+            </View>
+        </TouchableOpacity>
+    </View>
+    )
+}
 
 const renderItem = ({item}, navigation) =>{
 //const [ratingStars, setStars] = useState([])
@@ -42,8 +80,8 @@ const viewProduct = () =>{
 }
 
 return(
-<TouchableOpacity onPress = {viewProduct} >
     <View style = {styles.wholeContainer}>
+    <TouchableOpacity onPress = {viewProduct} >
         <View style = {styles.productContainer}>
         <Image source = {{uri: item.item.image}} style = {styles.image} resizeMode = 'contain'/>
         <View style = {styles.textInfo}>
@@ -63,10 +101,18 @@ return(
             {item.item.oldPrice && <View style = {{flexDirection: 'row'}}>
                 <Text>Old Price: </Text>
                 <Text style = {{textDecorationLine: 'line-through'}}>${item.item.oldPrice}</Text></View>}
+            {item.quantity &&
+                <View>
+                    <Text>{`Quantity: ${item.quantity}`}</Text>
+                </View>
+
+            }
+            </View>
         </View>
-        </View>
+       </TouchableOpacity >
+        <QuantitySelector />
     </View>
-</TouchableOpacity >
+
 )
 }
 
@@ -77,6 +123,9 @@ return(
             data = {CartItems}
             renderItem = {(item) => renderItem(item, navigation)}
             keyExtractor={(item, index) => index.toString()}
+            ListHeaderComponent = {renderHeader(CartItems, navigation)}
+            ListHeaderComponentStyle = {styles.checkoutContainer}
+             stickyHeaderIndices={[0]}
         />
     </View>
 )
@@ -97,6 +146,25 @@ const styles = StyleSheet.create({
     fontSize: 15,
     padding: 5,
   },
+checkoutButton:{
+    width: 300,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#000',
+    backgroundColor: '#efdc1a',
+    alignItems: 'center',
+    marginVertical: 10,
+},
+checkoutButtonText:{
+    margin: 5,
+},
+checkoutContainer:{
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    backgroundColor: '#fff',
+    width: winWidth,
+},
 container: {
     alignItems: 'center',
     flex: 1,
@@ -135,6 +203,10 @@ productContainer:{
 rating: {
     flexDirection: 'row',
 },
+sumTotal: {
+    alignItems: 'center',
+
+},
 textRating: {
     justifyContent: 'center',
     flexDirection: 'row',
@@ -147,6 +219,6 @@ title: {
 wholeContainer:{
     marginVertical: 5,
     marginRight: 10,
-
+    backgroundColor: '#fff',
 },
 })

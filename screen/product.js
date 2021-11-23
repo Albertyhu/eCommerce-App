@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import {View, StyleSheet, Text, TextInput, Image, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import Constant from 'expo-constants';
 import {openDrawer } from '@react-navigation/drawer';
+import {useNavigation} from '@react-navigation/native';
 
 import ProductData from '../asset/products.ts';
 import {Picker} from '@react-native-picker/picker';
@@ -9,13 +10,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Carousel from '../component/imageCarousel.js';
 
 import QuantitySelector from '../component/quantityselector.js';
-
+import CheckOutScreen from './checkout.js';
 /*
 const generateKey = id =>{
     return `${id}-${Math.random() * 100000 - 1}`
 }
 
 */
+
 function ConvertRating(rating){
     const ratingArray = [];
 
@@ -33,6 +35,10 @@ function ConvertRating(rating){
 }
 
 const Product = (props, {route, navigation}) =>{
+
+
+const navi = useNavigation();
+
 const [product, setProduct] = useState([]);
 const [colorOptions, setColorOptions] = useState([]);
 const [selectedOption, setSelectedOption] = useState('black');
@@ -71,10 +77,6 @@ const fetchProduct = () =>{
  //   console.log(newProduct)
     setProduct(...newProduct);
 }
-
-
-
-
 useEffect(()=>{
     fetchProduct();
 }, [])
@@ -123,7 +125,7 @@ return(
             <TouchableOpacity style = {styles.actionButton}>
                 <View><Text>Buy Now</Text></View>
             </TouchableOpacity>
-            <TouchableOpacity style = {styles.actionButton}>
+            <TouchableOpacity onPress = {() => props.navigation.navigate('CheckOutScreen')} style = {styles.actionButton}>
                 <View><Text>Proceed to Check Out</Text></View>
             </TouchableOpacity>
         </View>
