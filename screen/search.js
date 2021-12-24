@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Text, TextInput, Image } from 'react-native';
 
-import {Search} from '../component/searchComponent.js';
+import {Search} from '../component/searchComponent.tsx';
 
 const SearchScreen = () =>{
 return(

@@ -1,42 +1,17 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import {View, StyleSheet, Text, TextInput, Image, TouchableOpacity } from 'react-native';
 
-const QuantitySelector = () =>{
-
-const initialQuantity = {
-    stock: 0,
-}
-
-const [quantity, setQuantity] = useReducer(quantityReducer, initialQuantity)
-
-function quantityReducer(quantity = initialQuantity, action){
-    switch(action.type){
-        case 'INCREASE':
-            return{
-            stock: quantity.stock + 1,
-            }
-        case 'DECREASE':
-            return{
-            stock: quantity.stock - 1,
-            }
-        case 'SET':
-            return{
-            stock: action.number,
-            }
-    }
-}
-
+const QuantitySelector = ({finalQ, setFinalQ}) =>{
 const increment = () =>{
-    setQuantity({type: 'INCREASE'});
+    const newNum = finalQ + 1;
+    setFinalQ(newNum)
 }
 
 const decrement = () =>{
-    if(quantity.stock > 0)
-    setQuantity({type: 'DECREASE'});
-}
-
-const handleTextChange = val =>{
-    setQuantity({type: 'SET', number: val})
+    if(finalQ > 0){
+        const newNum = finalQ - 1;
+        setFinalQ(newNum)
+        }
 }
 
 return(
@@ -47,7 +22,7 @@ return(
         <View style = {styles.counterContainer}>
            <TouchableOpacity onPress ={decrement}><View style = {[styles.button, styles.subtractButton]}><Text>-</Text></View></TouchableOpacity>
            <View style = {[styles.button, {backgroundColor: '#fff'}]}>
-           <Text>{quantity.stock}</Text>
+           <Text>{finalQ}</Text>
            </View>
            <TouchableOpacity onPress = {increment}><View style = {[styles.button, styles.addButton]}><Text>+</Text></View></TouchableOpacity>
         </View>

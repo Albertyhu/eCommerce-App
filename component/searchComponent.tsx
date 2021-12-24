@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Text, TextInput, Image, Dimensions, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'
-import Products from '../asset/products.ts';
-import ProductScreen from '../screen/product.js';
+//import Products from '../asset/products.ts';
+import ProductScreen from '../screen/product.tsx';
 import {useNavigation } from '@react-navigation/native';
+import {DataStore} from 'aws-amplify';
+import {Product} from '../src/models';
 
 const renderItem = ({item}, navigation) =>{
 const viewProduct = () =>{
@@ -28,16 +30,24 @@ const [searchResults, setResults] = useState([])
 const handleQuery = val =>{
     setQuery(val)
 }
+const [product, setProduct] = useState<Product[]>([]);
+
+const fetchProduct = async () =>{
+    const productList = await DataStore.query(Product).then(setProduct)
+}
 
 //use the filter method to create a new array of values that corresponds with what the user is searching for
 //Do a deep copy of the array using the map method
 //make sure to covert both the titles in the array and the search query to both lower case
 const filterData = () =>{
-   let newArray = Products.filter(val => val.title.toLowerCase().search(query.toLowerCase()) > -1 );
+if(product){
+   let newArray = product.filter(val => val.title.toLowerCase().search(query.toLowerCase()) > -1 );
    setResults(newArray.map(val => val));
+}
 }
 
 useEffect(()=>{
+    fetchProduct();
     filterData();
     if(searchResults.length > 0 && query.length > 0){
         setDisplay(true)

@@ -1,5 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Text, TextInput, Image } from 'react-native';
+import {DataStore} from 'aws-amplify';
+import {Product, CartProduct} from '../src/models/index.js';
 
 const CheckOut = () =>{
 return(

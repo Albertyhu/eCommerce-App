@@ -1,0 +1,29 @@
+11/26/21
+
+GraphQL endpoint: https://jjlb7jsc5fde7eovpwi75vflda.appsync-api.us-west-1.amazonaws.com/graphql
+GraphQL API KEY: da2-ejwf6ryd5jgffolasd34fvescu
+
+
+11/24/21
+I can't find the solution to the following error:
+
+� An error occurred during the push operation: Unknown directive "connection".
+
+I'm going to have to work around it or try to get in touch with AWS Amplify support
+
+11/24/21
+GraphQL endpoint: https://jjlb7jsc5fde7eovpwi75vflda.appsync-api.us-west-1.amazonaws.com/graphql
+GraphQL API KEY: da2-ejwf6ryd5jgffolasd34fvescu
+
+11/23/21
+I have completely set up GraphUL integration. I stopped at deploying API section
+https://docs.amplify.aws/start/getting-started/data-model/q/integration/react-native/#create-a-graphql-api-and-database
+
+Schema still needs to be configured.
+
+
+11/23/21
+Got this error after the following console command
+amply push
+
+� An error occurred during the push operation: Resource is not in the state stackUpdateComplete
