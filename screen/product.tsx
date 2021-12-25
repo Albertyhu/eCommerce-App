@@ -5,6 +5,8 @@ import {openDrawer } from '@react-navigation/drawer';
 import {useNavigation} from '@react-navigation/native';
 import {DataStore, Auth} from 'aws-amplify';
 import {Product, CartProduct } from '../src/models';
+import {bindActionCreators } from 'redux';
+import {connect } from 'react-redux';
 
 import ProductData from '../asset/products.ts';
 import {Picker} from '@react-native-picker/picker';

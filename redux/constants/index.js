@@ -1,0 +1,2 @@
+export const RETRIEVE_CART = 'RETRIEVE_CART';
+export const  CALC_TOTAL_ITEMS = 'CALC_TOTAL_ITEMS';

@@ -6,16 +6,21 @@ import {createStackNavigator} from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, openDrawer, DrawerContentScrollView , DrawerItem } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { withAuthenticator } from 'aws-amplify-react-native'
+import { withAuthenticator } from 'aws-amplify-react-native';
+import thunk from 'redux-thunk';
+import {createStore, applyMiddleware } from 'redux'
+import {Provider} from 'react-redux';
+import Amplify from 'aws-amplify'
+import config from './src/aws-exports'
 
 import Home from './screen/home.tsx';
 import ProductScreen from './screen/product.tsx';
 import ShoppingCartScreen from './screen/ShoppingCart.tsx';
 import RootStack from './screen/rootstack.tsx';
 import CheckOutScreen from './screen/checkout.js';
-import {DrawerContent} from './screen/DrawerContent.tsx';
-import Amplify from 'aws-amplify'
-import config from './src/aws-exports'
+import DrawerContent from './screen/DrawerContent.tsx';
+import RootReducer from './redux/reducers';
+
 //Amplify.configure(config)
 
 //Got an unhandled rejection and this seems to solve the issue.
@@ -30,8 +35,14 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 LogBox.ignoreLogs(['Setting a timer']);
 
+/*Redux Store code */
+const store = createStore(RootReducer, applyMiddleware(thunk))
+
+/*Redux Store code end */
+
 function App() {
   return (
+  <Provider store = {store}>
   <NavigationContainer>
     <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} /> }
         screenOptions = {{
@@ -43,6 +54,7 @@ function App() {
         }}/>
     </Drawer.Navigator>
   </NavigationContainer>
+  </Provider>
   );
 }
 

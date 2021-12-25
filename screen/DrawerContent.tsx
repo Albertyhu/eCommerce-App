@@ -9,22 +9,31 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {Drawer, Divider} from 'react-native-paper';
 import {DataStore, Auth} from 'aws-amplify';
 import {CartProduct} from '../src/models/index.js';
+import {connect} from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 import Home from './home.tsx';
 import ProductScreen from './product.tsx';
 import ShoppingCartScreen from './ShoppingCart.tsx';
 import SearchScreen from './search.js';
+import {fetchCartP} from '../redux/action';
 
 const popAction = StackActions.pop(1);
-export function DrawerContent(props) {
+
+function DrawerContent(props) {
+
+const {fetchCartP} = props;
+const {Cart_data, TotalItem_redux} = props;
 const [cart, setCart] = useState<CartProduct[]>([])
 const [totalItems, setTotal] = useState<Int>(0);
 
+//not in use
 const fetchCart = async () =>{
     const userData = await Auth.currentAuthenticatedUser()
     await DataStore.query(CartProduct, val => val.userSub("eq", userData.attributes.sub)).then(setCart)
 }
 
+//This function is no long in use since I'm using redux to update total number of items in Shopping Cart
 const sumTotalItems = () =>{
     let sumTotal = 0;
     cart.forEach(i => {
@@ -33,13 +42,13 @@ const sumTotalItems = () =>{
     setTotal(sumTotal)
 }
 useEffect(()=>{
-    fetchCart();
+    fetchCartP();
 }, [])
 
-
 useEffect(()=>{
-   sumTotalItems()
-}, [cart])
+    setTotal(TotalItem_redux);
+}, [TotalItem_redux])
+
 
 return (
 <View style = {styles.drawerContainer}>
@@ -108,6 +117,16 @@ return (
 </View>
 );
 }
+
+const mapStateToProps = store => {
+    return{
+        Cart_data: [...store.CartReducer.cartArray],
+        TotalItem_redux: store.CartReducer.totalQuantity,
+    }
+}
+const mapDispatchToProps = dispatch => bindActionCreators({fetchCartP}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerContent);
 
 const styles = StyleSheet.create({
   button: {

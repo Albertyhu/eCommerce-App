@@ -12,6 +12,10 @@ import CartItems from '../asset/cart.ts';
 import ProductScreen from './product.tsx';
 import CheckOutScreen from './checkout.js';
 import EditProductScreen from './EditProduct.tsx'
+import {CalcTotalItems} from '../redux/action';
+import {useNavigation} from '@react-navigation/native';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 //Calculates total price of all items in shopping cart
 export const CalcTotal = data => {
@@ -141,12 +145,13 @@ return(
 )
 }
 
-const ShoppingCart = ({navigation}) =>{
+const ShoppingCart = (props) =>{
 
+const {CalcTotalItems} = props;
 const [cart, setCart] = useState<CartProduct[]>([])
 const [product, setProduct] = useState<Product[]>([]);
 const [render, setRender ] = useState(false);
-
+const navigation = useNavigation();
 //this useState array combines the data of Product and CartProduct
 const [data, setData] = useState([]);
 //const [quantity, setQuantity] = useState<Int>(0);
@@ -157,6 +162,7 @@ const deleteItem = async (productID) =>{
     DataStore.delete(toDelete);
     alert('Item is deleted from cart')
     fetchCartItems();
+    CalcTotalItems(cart);
 }
 
 //The structure of the code is based on the documentation in AWS Amplify website.
@@ -243,7 +249,8 @@ return(
 )
 }
 
-export default ShoppingCart;
+const mapDispatchToProps = dispatch => bindActionCreators({CalcTotalItems}, dispatch);
+export default connect(null, mapDispatchToProps)(ShoppingCart);
 
 const winWidth = Dimensions.get('window').width;
 
