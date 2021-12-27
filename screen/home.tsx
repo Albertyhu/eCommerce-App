@@ -104,7 +104,7 @@ const Home = (props, {navigation}) =>{
 const [products, setProducts] = useState<Product[]>([]);
 //searchResults displays the list of products onto the interface
 const [searchResults, setSR] = useState<Products[]>([]);
-const [query, setQuery] = useState<String>([])
+const [query, setQuery] = useState<String>('')
 //this part uses Typescript
 // this operator <> is used to set the type of the object when it is defined, but has no set value.
 //You'll have to install the library first

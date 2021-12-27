@@ -12,10 +12,11 @@ import CartItems from '../asset/cart.ts';
 import ProductScreen from './product.tsx';
 import CheckOutScreen from './checkout.js';
 import EditProductScreen from './EditProduct.tsx'
-import {CalcTotalItems} from '../redux/action';
+import {CalcTotalItems, fetchCartP} from '../redux/action';
 import {useNavigation} from '@react-navigation/native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {SupportContext} from '../component/DrawerContext.tsx';
 
 //Calculates total price of all items in shopping cart
 export const CalcTotal = data => {
@@ -55,7 +56,7 @@ return(
     )
 }
 
-const renderItem = ({item}, navigation, fetchCartItems, fetchProducts) =>{
+const renderItem = ({item}, navigation, fetchCartItems, fetchProducts, updateQuantity) =>{
 //const [ratingStars, setStars] = useState([])
 function renderStar(){
  return <Icon name = 'star' size = {25} color = '#e47911' />
@@ -98,6 +99,7 @@ const handleDelete = async () =>{
     DataStore.delete(toDelete);
     fetchCartItems();
     fetchProducts();
+    updateQuantity();
 }
 
 return(
@@ -147,7 +149,8 @@ return(
 
 const ShoppingCart = (props) =>{
 
-const {CalcTotalItems} = props;
+const {CalcTotalItems, fetchCartP} = props;
+const {itemQuantity} = props;
 const [cart, setCart] = useState<CartProduct[]>([])
 const [product, setProduct] = useState<Product[]>([]);
 const [render, setRender ] = useState(false);
@@ -155,6 +158,8 @@ const navigation = useNavigation();
 //this useState array combines the data of Product and CartProduct
 const [data, setData] = useState([]);
 //const [quantity, setQuantity] = useState<Int>(0);
+
+const {setItemTotal} = React.useContext(SupportContext);
 
 //deletes item
 const deleteItem = async (productID) =>{
@@ -206,9 +211,10 @@ const fetchProducts = async () => {
 }
 */
 /*Manipulating Quantity*/
-const updateQuantity = async (val, product_id) =>{
-    const original = await DataStore.query(CartProduct, product_id)
-    await DataStore.save(Post.copyOf(original, change => change.quantity = val))
+const updateQuantity = () =>{
+    fetchCartP();
+    setItemTotal(itemQuantity);
+
 }
 /*Manipulating Quantity End*/
 
@@ -236,7 +242,7 @@ return(
     {render ?
         <FlatList
             data = {product}
-            renderItem = {(item) => renderItem(item, navigation, fetchCartItems, fetchProducts)}
+            renderItem = {(item) => renderItem(item, navigation, fetchCartItems, fetchProducts, updateQuantity)}
             keyExtractor={(item, index) => index.toString()}
             ListHeaderComponent = {renderHeader(product, navigation)}
             ListHeaderComponentStyle = {styles.checkoutContainer}
@@ -249,7 +255,10 @@ return(
 )
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({CalcTotalItems}, dispatch);
+const mapStatetoProps = store =>({
+    itemQuantity: store.CartReducer.totalQuantity,
+})
+const mapDispatchToProps = dispatch => bindActionCreators({CalcTotalItems, fetchCartP}, dispatch);
 export default connect(null, mapDispatchToProps)(ShoppingCart);
 
 const winWidth = Dimensions.get('window').width;

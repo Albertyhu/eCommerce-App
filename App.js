@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, {useState} from 'react';
 import { StyleSheet, Text, View, LogBox } from 'react-native';
 import Constant from 'expo-constants';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -12,6 +12,7 @@ import {createStore, applyMiddleware } from 'redux'
 import {Provider} from 'react-redux';
 import Amplify from 'aws-amplify'
 import config from './src/aws-exports'
+import {SupportContext} from './component/DrawerContext.tsx';
 
 import Home from './screen/home.tsx';
 import ProductScreen from './screen/product.tsx';
@@ -36,14 +37,26 @@ const Drawer = createDrawerNavigator();
 LogBox.ignoreLogs(['Setting a timer']);
 
 /*Redux Store code */
+//The Redux store and passing context code are solely to update the number of items in the Shopping Cart indicated in the Drawer every time...
+//an item gets added or deleted in the Shopping Cart
 const store = createStore(RootReducer, applyMiddleware(thunk))
 
 /*Redux Store code end */
 
 function App() {
+const [itemTotal, setTotal] = useState(0);
+
+const supportContext = React.useMemo(()=>({
+setItemTotal: (num) =>{
+    setTotal(num);
+},
+returnItemTotal: ()=>{return itemTotal}
+}))
+
   return (
   <Provider store = {store}>
   <NavigationContainer>
+  <SupportContext.Provider value = {supportContext}>
     <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} /> }
         screenOptions = {{
             headerShown: false,
@@ -53,8 +66,10 @@ function App() {
             title: "Home",
         }}/>
     </Drawer.Navigator>
+    </SupportContext.Provider>
   </NavigationContainer>
   </Provider>
+
   );
 }
 

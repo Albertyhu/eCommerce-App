@@ -5,14 +5,16 @@ import {openDrawer } from '@react-navigation/drawer';
 import {useNavigation} from '@react-navigation/native';
 import {DataStore, Auth} from 'aws-amplify';
 import {Product, CartProduct } from '../src/models';
-
 import ProductData from '../asset/products.ts';
 import {Picker} from '@react-native-picker/picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Carousel from '../component/imageCarousel.js';
-
 import QuantitySelector from '../component/quantityselector.tsx';
 import CheckOutScreen from './checkout.js';
+import {SupportContext}  from '../component/DrawerContext.tsx'
+import {connect} from 'react-redux';
+import {createActionBinders} from 'redux';
+import {fetchCartP} from '../redux/action';
 
 import ShoppingCartScreen from './ShoppingCart.tsx';
 import RootStack from './rootstack.tsx';
@@ -53,6 +55,10 @@ const [colorOptions, setColorOptions] = useState([]);
 const [selectedOption, setSelectedOption] = useState('');
 const [quantity, setQuantity] = useState<Int>(1)
 const [authData, setAuthData] = useState(null);
+
+/*For updating the number of Shopping Cart Items in Drawer*/
+const {setItemTotal} = React.useContext(SupportContext);
+const {fetchCartP} = props;
 
 const pickerRef = useRef();
 
@@ -160,6 +166,8 @@ const saveItem = async () =>{
         updated.quantity = quantity;
         updated.option = selectedOption;
     }))
+
+    setItemTotal(quantity);
     navi.goBack();
 
 }
@@ -242,7 +250,12 @@ Using the ? operator is necessary to make this work. I found that without it, th
 )
 }
 
-export default EditProductScreen;
+const mapDispatchtoProps = dispatch =>({fetchCartP}, dispatch);
+const mapStatetoProps = store =>({
+    itemQuantity: store.CartReducer.totalQuantity,
+})
+
+export default connect(mapStatetoProps, mapDispatchtoProps)(EditProductScreen);
 
 const winWidth = Dimensions.get('window').width;
 
