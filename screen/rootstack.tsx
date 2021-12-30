@@ -24,7 +24,7 @@ export default function RootStack({navigation}) {
     <Stack.Navigator screenOptions = {{
         //headerShown: false,
     }}
-    initialRouteName = "ShoppingCartScreen"
+    initialRouteName = "Home"
     >
         <Stack.Screen name = 'Home' component = {Home} navigation = {navigation}
         options = {{

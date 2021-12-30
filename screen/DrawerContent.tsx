@@ -11,6 +11,7 @@ import {DataStore, Auth} from 'aws-amplify';
 import {CartProduct} from '../src/models/index.js';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
+import {SupportContext} from '../component/DrawerContext.tsx';
 
 import Home from './home.tsx';
 import ProductScreen from './product.tsx';
@@ -26,6 +27,7 @@ const {fetchCartP} = props;
 const {Cart_data, TotalItem_redux} = props;
 const [cart, setCart] = useState<CartProduct[]>([])
 const [totalItems, setTotal] = useState<Int>(0);
+const {returnItemTotal, setItemTotal} = React.useContext(SupportContext);
 
 //not in use
 const fetchCart = async () =>{
@@ -43,10 +45,11 @@ const sumTotalItems = () =>{
 }
 useEffect(()=>{
     fetchCartP();
+
 }, [])
 
 useEffect(()=>{
-    setTotal(TotalItem_redux);
+    setItemTotal(TotalItem_redux);
 }, [TotalItem_redux])
 
 
@@ -76,7 +79,7 @@ return (
                    />
                )}
                label ={() => <Text>Shopping Cart [
-                {cart ? <Text style = {{color: 'red'}}>{totalItems} items</Text>
+                {cart ? <Text style = {{color: 'red'}}>{returnItemTotal()} items</Text>
                     : <Text> 0 items</Text>
                 }]
                 </Text>}

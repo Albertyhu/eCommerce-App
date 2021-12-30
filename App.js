@@ -12,6 +12,9 @@ import {createStore, applyMiddleware } from 'redux'
 import {Provider} from 'react-redux';
 import Amplify from 'aws-amplify'
 import config from './src/aws-exports'
+import {SupportContext} from './component/DrawerContext.tsx';
+import {DataStore, Auth} from 'aws-amplify';
+import {Product, CartProduct} from './src/models';
 
 import Home from './screen/home.tsx';
 import ProductScreen from './screen/product.tsx';
@@ -41,7 +44,26 @@ const store = createStore(RootReducer, applyMiddleware(thunk))
 /*Redux Store code end */
 
 function App() {
+
+const [itemTotal, setTotal] = React.useState(0);
+
+const context = React.useMemo(()=>({
+setItemTotal: (num) =>{
+    setTotal(num);
+},
+returnItemTotal: () =>{return itemTotal},
+calTotalQuantity: async ()=>{
+    const userData = await Auth.currentAuthenticatedUser();
+    const cartData = await DataStore.query(CartProduct, val => val.userSub("eq", userData.attributes.sub))
+    const totalItem = cartData.reduce((total, ind) =>{
+        return total += ind.quantity;
+    }, 0)
+    setTotal(totalItem)
+},
+}))
+
   return (
+  <SupportContext.Provider value = {context}>
   <Provider store = {store}>
   <NavigationContainer>
     <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} /> }
@@ -55,6 +77,7 @@ function App() {
     </Drawer.Navigator>
   </NavigationContainer>
   </Provider>
+  </SupportContext.Provider>
   );
 }
 

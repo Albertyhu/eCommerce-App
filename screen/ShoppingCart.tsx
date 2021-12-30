@@ -16,6 +16,7 @@ import {CalcTotalItems} from '../redux/action';
 import {useNavigation} from '@react-navigation/native';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {SupportContext} from '../component/DrawerContext.tsx';
 
 //Calculates total price of all items in shopping cart
 export const CalcTotal = data => {
@@ -55,7 +56,7 @@ return(
     )
 }
 
-const renderItem = ({item}, navigation, fetchCartItems, fetchProducts) =>{
+const renderItem = ({item}, navigation, fetchCartItems, fetchProducts, updateItemQuantity) =>{
 //const [ratingStars, setStars] = useState([])
 function renderStar(){
  return <Icon name = 'star' size = {25} color = '#e47911' />
@@ -87,8 +88,8 @@ const viewProduct = () =>{
     navigation.navigate('ProductScreen', {ProductID: item.productID})
 }
 
-const navEditProduct = () => {
-    navigation.navigate('EditProductScreen', {ProductID: item.productID})
+const navEditProduct = async () => {
+    navigation.navigate('EditProductScreen', {ProductID: item.id})
 }
 
 //item.id is the id of the CartProduct. This is different than that of corresponding product
@@ -98,6 +99,7 @@ const handleDelete = async () =>{
     DataStore.delete(toDelete);
     fetchCartItems();
     fetchProducts();
+    updateItemQuantity();
 }
 
 return(
@@ -156,13 +158,12 @@ const navigation = useNavigation();
 const [data, setData] = useState([]);
 //const [quantity, setQuantity] = useState<Int>(0);
 
-//deletes item
-const deleteItem = async (productID) =>{
-    const toDelete = await DataStore.query(CartProduct, productID)
-    DataStore.delete(toDelete);
-    alert('Item is deleted from cart')
-    fetchCartItems();
-    CalcTotalItems(cart);
+const {setItemTotal, calTotalQuantity } = React.useContext(SupportContext);
+const { itemQuantity} = props;
+
+//updates shopping cart item indicated on drawer
+const updateItemQuantity = () =>{
+    calTotalQuantity()
 }
 
 //The structure of the code is based on the documentation in AWS Amplify website.
@@ -218,6 +219,7 @@ const isFocused =  useIsFocused();
 
 useEffect(()=>{
    fetchCartItems();
+   fetchProducts();
 }, [isFocused])
 
 useEffect(()=>{
@@ -236,7 +238,7 @@ return(
     {render ?
         <FlatList
             data = {product}
-            renderItem = {(item) => renderItem(item, navigation, fetchCartItems, fetchProducts)}
+            renderItem = {(item) => renderItem(item, navigation, fetchCartItems, fetchProducts, updateItemQuantity)}
             keyExtractor={(item, index) => index.toString()}
             ListHeaderComponent = {renderHeader(product, navigation)}
             ListHeaderComponentStyle = {styles.checkoutContainer}
@@ -249,8 +251,11 @@ return(
 )
 }
 
+const mapStatetoProps = store =>({
+    itemQuantity: store.CartReducer.totalQuantity,
+})
 const mapDispatchToProps = dispatch => bindActionCreators({CalcTotalItems}, dispatch);
-export default connect(null, mapDispatchToProps)(ShoppingCart);
+export default connect(mapStatetoProps, mapDispatchToProps)(ShoppingCart);
 
 const winWidth = Dimensions.get('window').width;
 

@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import {DataStore, Auth} from 'aws-amplify';
 import {Product, CartProduct } from '../src/models';
 import {bindActionCreators } from 'redux';
-import {connect } from 'react-redux';
+import {SupportContext} from '../component/DrawerContext.tsx';
 
 import ProductData from '../asset/products.ts';
 import {Picker} from '@react-native-picker/picker';
@@ -57,6 +57,9 @@ const [extend, setExtend] = useState(false);
 const [shouldExpand, createExpandButton] = useState(false);
 const [expandButton, setExpandButton] = useState(true);
 const [quantity, setQuantity] = useState<Int>(1)
+
+/*For updating Shopping Cart Items in Drawer*/
+const {setItemTotal, calTotalQuantity} = React.useContext(SupportContext);
 
 const pickerRef = useRef();
 
@@ -153,6 +156,7 @@ if(quantity > 0){
          DataStore.save(newCartProduct);
         props.navigation.navigate('RootStack', {screen: 'ShoppingCartScreen', initial: false,});
     }
+    calTotalQuantity()
     }
 else{
                 alert('You have selected 0 quantity to purchase for this product.')
@@ -294,6 +298,7 @@ Using the ? operator is necessary to make this work. I found that without it, th
 </ScrollView>
 )
 }
+
 
 export default ProductScreen;
 

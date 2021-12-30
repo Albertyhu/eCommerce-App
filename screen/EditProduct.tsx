@@ -1,10 +1,13 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {View, StyleSheet, Text, TextInput, Image, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
+import {View, StyleSheet, Text, TextInput, Image, Dimensions, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import Constant from 'expo-constants';
 import {openDrawer } from '@react-navigation/drawer';
 import {useNavigation} from '@react-navigation/native';
 import {DataStore, Auth} from 'aws-amplify';
 import {Product, CartProduct } from '../src/models';
+import {SupportContext} from '../component/DrawerContext.tsx';
+import {connect} from 'react-redux';
+import {bindActionCreator} from 'redux';
 
 import ProductData from '../asset/products.ts';
 import {Picker} from '@react-native-picker/picker';
@@ -49,10 +52,13 @@ const navi = useNavigation();
 const [store, setStore ] = useState([])
 const [product, setProduct] = useState([]);
 const [ cartData, setCartData ] = useState<CartProduct>([])
-const [colorOptions, setColorOptions] = useState([]);
 const [selectedOption, setSelectedOption] = useState('');
 const [quantity, setQuantity] = useState<Int>(1)
 const [authData, setAuthData] = useState(null);
+
+/*For updating Shopping Cart Items in Drawer*/
+const {setItemTotal, calTotalQuantity} = React.useContext(SupportContext)
+const {fetchCarP, itemQuantity} = props;
 
 const pickerRef = useRef();
 
@@ -86,7 +92,7 @@ return (product.options ?
 )
 }
 /*end code for product options*/
-
+/*
 const fetchProduct = async () =>{
   //The following line is no longer in use. It serves as a fake list of products.
   //  const newProduct = ProductData.filter(val => val.id === props.route.params.ProductID);
@@ -97,95 +103,119 @@ const fetchProduct = async () =>{
 //My previous methods didn't work, but this code which I copied from the tutorial worked
 await DataStore.query(Product, props.route.params.ProductID).then(setProduct)
 
-}
+}*/
 
-
+/*
 const fetchCartData = async () =>{
     const userSub = await Auth.currentAuthenticatedUser();
     setAuthData(userSub)
     await DataStore.query(CartProduct, val => val.and( val =>
-        {val.userSub("eq", userSub.attributes.sub).productID("eq", props.route.params.ProductID)}))
+        {val.userSub("eq", userSub.attributes.sub).id("eq", props.route.params.ProductID)}))
          .then(setCartData)
+}*/
+
+const fetchCartData = async () =>{
+    await DataStore.query(CartProduct, props.route.params.ProductID).then(setCartData)
+
+}
+
+const fetchProduct = async () =>{
+    await DataStore.query(Product, cartData.productID).then(setProduct)
 }
 
 const goHome = () =>{
     navi.navigate('Home');
 }
 
-/*Add to Cart code */
-const addToCart = async () =>{
-//Retrieve data of current user
-const userData = await Auth.currentAuthenticatedUser();
-
-//Find any existing product in the Cart that is the same as what the user has chosen to add to the cart using ProductID and option
-//If there aren't any, duplicateProduct should return false
-const duplicateProduct = await DataStore.query(CartProduct, val => val.and(val => val.productID("eq", props.route.params.ProductID).option("eq", selectedOption)))
-
+const saveItem = async () =>{
+    const original = await DataStore.query(CartProduct, cartData.id);
 if(quantity > 0){
-    if(duplicateProduct.length !== 0){
-        await DataStore.save(CartProduct.copyOf(duplicateProduct[0], updated => {
-            //add the new and old quantities together
-            updated.quantity += quantity;
-            props.navigation.navigate('RootStack', {screen: 'ShoppingCartScreen', initial: false,})
+    //if the user's current selection matches the current product's selected option
+    if(cartData.option === selectedOption){
+        console.log("Options are the same")
+        await DataStore.save(CartProduct.copyOf(original, updated => {
+            updated.quantity = quantity;
         }))
     }
     else{
-        if(!product || !userData){
-            return;
+        //code to check if there is a CartProduct item that has the same option as the selectedOption
+        const existingItem = await DataStore.query(CartProduct, val => val.option("eq", selectedOption).productID("eq", cartData.productID))
+
+        //if there is a CartProduct item with the same option as the user's selectedOption, update it's quantity by adding the selected quantity
+        //delete the current item
+        if(existingItem.length !== 0){
+            console.log("Existing item with same option exists")
+            await DataStore.save(CartProduct.copyOf(existingItem[0], updated =>{
+                updated.quantity += quantity;
+            }))
+            DataStore.delete(original)
+            alert("There is another item in your shopping cart that has the same features as this idea. The quantity you chose for this item and the other one will be added together.")
         }
-
-        const newCartProduct = new CartProduct({
-           userSub: userData.attributes.sub,
-           quantity,
-           option: selectedOption,
-           productID: product.id,
-        })
-         DataStore.save(newCartProduct);
-        props.navigation.navigate('RootStack', {screen: 'ShoppingCartScreen', initial: false,});
+        //if there are no other CartProduct items with the same selectedOption
+        //update the option
+        else{
+            console.log("New selected option and quantity")
+            await DataStore.save(CartProduct.copyOf(original, updated=>{
+                updated.option = selectedOption;
+                updated.quantity = quantity;
+            }))
+        }
     }
-    }
+        calTotalQuantity()
+        navi.goBack();
+}
 else{
-                alert('You have selected 0 quantity to purchase for this product.')
-}
+    zeroQuantityAlert(original);
 
 }
-
-/*Add to Cart End*/
-
-
-const saveItem = async () =>{
-
-    const original = await DataStore.query(CartProduct, cartData[0].id);
-    await DataStore.save(CartProduct.copyOf(original, updated => {
-        updated.quantity = quantity;
-        updated.option = selectedOption;
-    }))
-    navi.goBack();
-
 }
 
+
+const zeroQuantityAlert = (original) =>{
+    Alert.alert(
+        "Your quantity is zero on this product.",
+         "If you choose to save, this will remove the current item from your shopping cart. Do you want to proceed?",
+        [
+         {
+            text: "Yes",
+            onPress: ()=>{
+                DataStore.delete(original)
+                calTotalQuantity()
+                navi.goBack();
+                  },
+         },
+         {
+            text: 'Cancel',
+            onPress: () =>{return false},
+         },
+        ],
+    );
+}
+
+//Having to code active causes an error "Can't perform a React state update on an unmounted component" everytime the screen changes from Shopping List to Home Screen
+/*
 useEffect(()=>{
-    fetchProduct();
     fetchCartData();
-
+    fetchProduct();
 }, [])
-
+*/
 
 useEffect(()=>{
     if(!props.route.params?.ProductID){
         return;
     }
-    fetchProduct();
     fetchCartData();
+    fetchProduct();
 
 }, [props.route.params?.ProductID])
 
 useEffect(()=>{
-    if(cartData[0]){
-        setQuantity(cartData[0].quantity)
-        setSelectedOption(cartData[0].option)
+    if(cartData){
+        setQuantity(cartData.quantity)
+        setSelectedOption(cartData.option)
         }
-}, [cartData[0]])
+    fetchProduct();
+}, [cartData])
 
 //Because that retrieving data from the datastore takes time, the app has to check whether the desired data exist or not in its own side
 /*
@@ -242,7 +272,12 @@ Using the ? operator is necessary to make this work. I found that without it, th
 )
 }
 
-export default EditProductScreen;
+const mapStatetoProps = store =>({
+    itemQuantity: store.CartReducer.totalQuantity,
+})
+
+
+export default connect(mapStatetoProps, null)(EditProductScreen);
 
 const winWidth = Dimensions.get('window').width;
 
