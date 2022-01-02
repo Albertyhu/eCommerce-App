@@ -2,13 +2,14 @@ import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Text, TextInput, Image, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
 import Icons from 'react-native-vector-icons/Ionicons';
 import {DataStore, Auth} from 'aws-amplify';
-import {fillPersonalInfo} from '../redux/action';
+import {fillPersonalInfo, fetchCartP} from '../redux/action';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {SupportContext} from '../component/DrawerContext.tsx';
 
 const Account = (props, {navigation}) =>{
 
-//const {fillPersonalInfo} = props;
+const {fillPersonalInfo, fetchCartP} = props;
 const [editMode, setEditMode] = useState(false);
 
 const [fname, setFname] = useState<String>('First Name');
@@ -172,9 +173,9 @@ return(
 
 //const mapDispatchtoProps = dispatch => ({fillPersonalInfo, fetchCartP}, dispatch)
 const mapStatetoProps = store =>({})
-//const mapDispatchtoProps = dispatch => ({fillPersonalInfo}, dispatch)
-//export default connect(mapStatetoProps, mapDispatchtoProps)(Account);
-export default connect(mapStatetoProps, null)(Account)
+const mapDispatchtoProps = dispatch => bindActionCreators({fillPersonalInfo, fetchCartP}, dispatch)
+export default connect(mapStatetoProps, mapDispatchtoProps)(Account);
+//export default connect(mapStatetoProps, null)(Account)
 //export default Account;
 
 const winWidth = Dimensions.get('window').width;
