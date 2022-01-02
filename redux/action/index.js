@@ -60,7 +60,7 @@ export function fillPersonalInfo(
 ){
     return (dispatch =>{
         dispatch({
-            type: Fill_PROFILE,
+            type: FILL_PROFILE,
             first: fName,
             last: lName,
             email: Email,
