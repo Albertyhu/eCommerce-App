@@ -135,6 +135,7 @@ const duplicateProduct = await DataStore.query(CartProduct, val => val.and(val =
     .userSub("eq", userData.attributes.sub)))
 
 if(quantity > 0){
+//Scenario if there is an existing item in the Cart that is the same as the one the user is currently adding.
     if(duplicateProduct.length !== 0){
         await DataStore.save(CartProduct.copyOf(duplicateProduct[0], updated => {
             //add the new and old quantities together
@@ -142,6 +143,7 @@ if(quantity > 0){
             props.navigation.navigate('RootStack', {screen: 'ShoppingCartScreen', initial: false,})
         }))
     }
+//Scenario if there is no item in the Shopping Cart that is the same
     else{
         if(!product || !userData){
             return;

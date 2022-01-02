@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Constant from 'expo-constants';
 import {createStackNavigator} from '@react-navigation/stack';
-import { NavigationContainer, goBack, StackActions } from '@react-navigation/native';
+import { NavigationContainer, goBack, StackActions, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator, openDrawer } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {DataStore, Auth} from 'aws-amplify';
@@ -12,19 +12,22 @@ import {CartProduct} from '../src/models/index.js';
 import Home from './home.tsx';
 import ProductScreen from './product.tsx';
 import ShoppingCartScreen from './ShoppingCart.tsx';
-import CheckOutScreen from './checkout.js';
+import CheckOutScreen from './checkout.tsx';
 import SearchScreen from './search.js';
 import EditProductScreen from './EditProduct.tsx';
+import SummaryScreen from './summary.tsx';
+import AccountScreen from './Account.tsx';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const popAction = StackActions.pop(1);
 export default function RootStack({navigation}) {
+const navi = useNavigation();
   return (
     <Stack.Navigator screenOptions = {{
         //headerShown: false,
     }}
-    initialRouteName = "Home"
+    initialRouteName = "AccountScreen"
     >
         <Stack.Screen name = 'Home' component = {Home} navigation = {navigation}
         options = {{
@@ -72,8 +75,18 @@ export default function RootStack({navigation}) {
                             </TouchableOpacity>)
                      }}
          />
-       <Stack.Screen name='SearchScreen' component = {SearchScreen} options = {{
-           title: "Search Out",
+          <Stack.Screen name='SearchScreen' component = {SearchScreen} options = {{
+              title: "Search Out",
+              headerLeft: ()=>(<Icon name = 'ios-menu' color = '#000' size = {25} onPress = {navigation.openDrawer} style = {styles.menuButton}/> ),
+              headerRight: ()=>( <TouchableOpacity style = {styles.backButton} onPress = {() =>navigation.goBack()}>
+                                            <View>
+                                                <Text style = {styles.backButtonText}>Go Back</Text>
+                                            </View>
+                              </TouchableOpacity>)
+                       }}
+           />
+       <Stack.Screen name='AccountScreen' component = {AccountScreen} options = {{
+           title: "Account Information",
            headerLeft: ()=>(<Icon name = 'ios-menu' color = '#000' size = {25} onPress = {navigation.openDrawer} style = {styles.menuButton}/> ),
            headerRight: ()=>( <TouchableOpacity style = {styles.backButton} onPress = {() =>navigation.goBack()}>
                                          <View>
@@ -82,6 +95,16 @@ export default function RootStack({navigation}) {
                            </TouchableOpacity>)
                     }}
         />
+        <Stack.Screen name='SummaryScreen' component = {SummaryScreen} options = {{
+            title: "Confirmation",
+            headerLeft: ()=>(<Icon name = 'ios-menu' color = '#000' size = {25} onPress = {navigation.openDrawer} style = {styles.menuButton}/> ),
+            headerRight: ()=>( <TouchableOpacity style = {styles.backButton} onPress = {() =>navigation.goBack()}>
+                                          <View>
+                                              <Text style = {styles.backButtonText}>Go Back</Text>
+                                          </View>
+                            </TouchableOpacity>)
+                     }}
+         />
     </Stack.Navigator>
   );
 }

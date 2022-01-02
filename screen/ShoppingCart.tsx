@@ -10,7 +10,7 @@ import { useIsFocused } from '@react-navigation/native';
 import QuantitySelector from '../component/quantityselector.tsx';
 import CartItems from '../asset/cart.ts';
 import ProductScreen from './product.tsx';
-import CheckOutScreen from './checkout.js';
+import CheckOutScreen from './checkout.tsx';
 import EditProductScreen from './EditProduct.tsx'
 import {CalcTotalItems} from '../redux/action';
 import {useNavigation} from '@react-navigation/native';

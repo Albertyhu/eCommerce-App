@@ -197,6 +197,188 @@ export type DeleteCartProductInput = {
   _version?: number | null,
 };
 
+export type CreateOrderInput = {
+  id?: string | null,
+  userSub: string,
+  firstName: string,
+  lastName: string,
+  phoneNumber?: number | null,
+  address?: string | null,
+  address2?: string | null,
+  city?: string | null,
+  state?: string | null,
+  zipcode?: string | null,
+  _version?: number | null,
+};
+
+export type ModelOrderConditionInput = {
+  userSub?: ModelStringInput | null,
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  phoneNumber?: ModelIntInput | null,
+  address?: ModelStringInput | null,
+  address2?: ModelStringInput | null,
+  city?: ModelStringInput | null,
+  state?: ModelStringInput | null,
+  zipcode?: ModelStringInput | null,
+  and?: Array< ModelOrderConditionInput | null > | null,
+  or?: Array< ModelOrderConditionInput | null > | null,
+  not?: ModelOrderConditionInput | null,
+};
+
+export type Order = {
+  __typename: "Order",
+  id: string,
+  userSub: string,
+  firstName: string,
+  lastName: string,
+  phoneNumber?: number | null,
+  address?: string | null,
+  address2?: string | null,
+  city?: string | null,
+  state?: string | null,
+  zipcode?: string | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type UpdateOrderInput = {
+  id: string,
+  userSub?: string | null,
+  firstName?: string | null,
+  lastName?: string | null,
+  phoneNumber?: number | null,
+  address?: string | null,
+  address2?: string | null,
+  city?: string | null,
+  state?: string | null,
+  zipcode?: string | null,
+  _version?: number | null,
+};
+
+export type DeleteOrderInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateOrderProductInput = {
+  id?: string | null,
+  quantity: number,
+  option?: string | null,
+  productID: string,
+  orderID: string,
+  _version?: number | null,
+};
+
+export type ModelOrderProductConditionInput = {
+  quantity?: ModelIntInput | null,
+  option?: ModelStringInput | null,
+  productID?: ModelIDInput | null,
+  orderID?: ModelIDInput | null,
+  and?: Array< ModelOrderProductConditionInput | null > | null,
+  or?: Array< ModelOrderProductConditionInput | null > | null,
+  not?: ModelOrderProductConditionInput | null,
+};
+
+export type OrderProduct = {
+  __typename: "OrderProduct",
+  id: string,
+  quantity: number,
+  option?: string | null,
+  productID: string,
+  product?: Product | null,
+  orderID: string,
+  order?: Order | null,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type UpdateOrderProductInput = {
+  id: string,
+  quantity?: number | null,
+  option?: string | null,
+  productID?: string | null,
+  orderID?: string | null,
+  _version?: number | null,
+};
+
+export type DeleteOrderProductInput = {
+  id: string,
+  _version?: number | null,
+};
+
+export type CreateAccountInfoInput = {
+  userSub: string,
+  firstName?: string | null,
+  lastName?: string | null,
+  phoneNumber?: number | null,
+  address?: string | null,
+  address2?: string | null,
+  city?: string | null,
+  state?: string | null,
+  zipcode?: string | null,
+  id?: string | null,
+  _version?: number | null,
+};
+
+export type ModelAccountInfoConditionInput = {
+  userSub?: ModelStringInput | null,
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  phoneNumber?: ModelIntInput | null,
+  address?: ModelStringInput | null,
+  address2?: ModelStringInput | null,
+  city?: ModelStringInput | null,
+  state?: ModelStringInput | null,
+  zipcode?: ModelStringInput | null,
+  and?: Array< ModelAccountInfoConditionInput | null > | null,
+  or?: Array< ModelAccountInfoConditionInput | null > | null,
+  not?: ModelAccountInfoConditionInput | null,
+};
+
+export type AccountInfo = {
+  __typename: "AccountInfo",
+  userSub: string,
+  firstName?: string | null,
+  lastName?: string | null,
+  phoneNumber?: number | null,
+  address?: string | null,
+  address2?: string | null,
+  city?: string | null,
+  state?: string | null,
+  zipcode?: string | null,
+  id: string,
+  createdAt: string,
+  updatedAt: string,
+  _version: number,
+  _deleted?: boolean | null,
+  _lastChangedAt: number,
+};
+
+export type UpdateAccountInfoInput = {
+  userSub?: string | null,
+  firstName?: string | null,
+  lastName?: string | null,
+  phoneNumber?: number | null,
+  address?: string | null,
+  address2?: string | null,
+  city?: string | null,
+  state?: string | null,
+  zipcode?: string | null,
+  _version?: number | null,
+};
+
+export type DeleteAccountInfoInput = {
+  id: string,
+  _version?: number | null,
+};
+
 export type ModelProductFilterInput = {
   id?: ModelIDInput | null,
   title?: ModelStringInput | null,
@@ -234,6 +416,69 @@ export type ModelCartProductFilterInput = {
 export type ModelCartProductConnection = {
   __typename: "ModelCartProductConnection",
   items:  Array<CartProduct >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type ModelOrderFilterInput = {
+  id?: ModelIDInput | null,
+  userSub?: ModelStringInput | null,
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  phoneNumber?: ModelIntInput | null,
+  address?: ModelStringInput | null,
+  address2?: ModelStringInput | null,
+  city?: ModelStringInput | null,
+  state?: ModelStringInput | null,
+  zipcode?: ModelStringInput | null,
+  and?: Array< ModelOrderFilterInput | null > | null,
+  or?: Array< ModelOrderFilterInput | null > | null,
+  not?: ModelOrderFilterInput | null,
+};
+
+export type ModelOrderConnection = {
+  __typename: "ModelOrderConnection",
+  items:  Array<Order >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type ModelOrderProductFilterInput = {
+  id?: ModelIDInput | null,
+  quantity?: ModelIntInput | null,
+  option?: ModelStringInput | null,
+  productID?: ModelIDInput | null,
+  orderID?: ModelIDInput | null,
+  and?: Array< ModelOrderProductFilterInput | null > | null,
+  or?: Array< ModelOrderProductFilterInput | null > | null,
+  not?: ModelOrderProductFilterInput | null,
+};
+
+export type ModelOrderProductConnection = {
+  __typename: "ModelOrderProductConnection",
+  items:  Array<OrderProduct >,
+  nextToken?: string | null,
+  startedAt?: number | null,
+};
+
+export type ModelAccountInfoFilterInput = {
+  userSub?: ModelStringInput | null,
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  phoneNumber?: ModelIntInput | null,
+  address?: ModelStringInput | null,
+  address2?: ModelStringInput | null,
+  city?: ModelStringInput | null,
+  state?: ModelStringInput | null,
+  zipcode?: ModelStringInput | null,
+  and?: Array< ModelAccountInfoFilterInput | null > | null,
+  or?: Array< ModelAccountInfoFilterInput | null > | null,
+  not?: ModelAccountInfoFilterInput | null,
+};
+
+export type ModelAccountInfoConnection = {
+  __typename: "ModelAccountInfoConnection",
+  items:  Array<AccountInfo >,
   nextToken?: string | null,
   startedAt?: number | null,
 };
@@ -425,6 +670,333 @@ export type DeleteCartProductMutation = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
     } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type CreateOrderMutationVariables = {
+  input: CreateOrderInput,
+  condition?: ModelOrderConditionInput | null,
+};
+
+export type CreateOrderMutation = {
+  createOrder?:  {
+    __typename: "Order",
+    id: string,
+    userSub: string,
+    firstName: string,
+    lastName: string,
+    phoneNumber?: number | null,
+    address?: string | null,
+    address2?: string | null,
+    city?: string | null,
+    state?: string | null,
+    zipcode?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateOrderMutationVariables = {
+  input: UpdateOrderInput,
+  condition?: ModelOrderConditionInput | null,
+};
+
+export type UpdateOrderMutation = {
+  updateOrder?:  {
+    __typename: "Order",
+    id: string,
+    userSub: string,
+    firstName: string,
+    lastName: string,
+    phoneNumber?: number | null,
+    address?: string | null,
+    address2?: string | null,
+    city?: string | null,
+    state?: string | null,
+    zipcode?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteOrderMutationVariables = {
+  input: DeleteOrderInput,
+  condition?: ModelOrderConditionInput | null,
+};
+
+export type DeleteOrderMutation = {
+  deleteOrder?:  {
+    __typename: "Order",
+    id: string,
+    userSub: string,
+    firstName: string,
+    lastName: string,
+    phoneNumber?: number | null,
+    address?: string | null,
+    address2?: string | null,
+    city?: string | null,
+    state?: string | null,
+    zipcode?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type CreateOrderProductMutationVariables = {
+  input: CreateOrderProductInput,
+  condition?: ModelOrderProductConditionInput | null,
+};
+
+export type CreateOrderProductMutation = {
+  createOrderProduct?:  {
+    __typename: "OrderProduct",
+    id: string,
+    quantity: number,
+    option?: string | null,
+    productID: string,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      title: string,
+      description?: string | null,
+      image: string,
+      images: Array< string >,
+      options?: Array< string > | null,
+      avgRating?: number | null,
+      ratings?: number | null,
+      price: number,
+      oldPrice?: number | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    orderID: string,
+    order?:  {
+      __typename: "Order",
+      id: string,
+      userSub: string,
+      firstName: string,
+      lastName: string,
+      phoneNumber?: number | null,
+      address?: string | null,
+      address2?: string | null,
+      city?: string | null,
+      state?: string | null,
+      zipcode?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateOrderProductMutationVariables = {
+  input: UpdateOrderProductInput,
+  condition?: ModelOrderProductConditionInput | null,
+};
+
+export type UpdateOrderProductMutation = {
+  updateOrderProduct?:  {
+    __typename: "OrderProduct",
+    id: string,
+    quantity: number,
+    option?: string | null,
+    productID: string,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      title: string,
+      description?: string | null,
+      image: string,
+      images: Array< string >,
+      options?: Array< string > | null,
+      avgRating?: number | null,
+      ratings?: number | null,
+      price: number,
+      oldPrice?: number | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    orderID: string,
+    order?:  {
+      __typename: "Order",
+      id: string,
+      userSub: string,
+      firstName: string,
+      lastName: string,
+      phoneNumber?: number | null,
+      address?: string | null,
+      address2?: string | null,
+      city?: string | null,
+      state?: string | null,
+      zipcode?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteOrderProductMutationVariables = {
+  input: DeleteOrderProductInput,
+  condition?: ModelOrderProductConditionInput | null,
+};
+
+export type DeleteOrderProductMutation = {
+  deleteOrderProduct?:  {
+    __typename: "OrderProduct",
+    id: string,
+    quantity: number,
+    option?: string | null,
+    productID: string,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      title: string,
+      description?: string | null,
+      image: string,
+      images: Array< string >,
+      options?: Array< string > | null,
+      avgRating?: number | null,
+      ratings?: number | null,
+      price: number,
+      oldPrice?: number | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    orderID: string,
+    order?:  {
+      __typename: "Order",
+      id: string,
+      userSub: string,
+      firstName: string,
+      lastName: string,
+      phoneNumber?: number | null,
+      address?: string | null,
+      address2?: string | null,
+      city?: string | null,
+      state?: string | null,
+      zipcode?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type CreateAccountInfoMutationVariables = {
+  input: CreateAccountInfoInput,
+  condition?: ModelAccountInfoConditionInput | null,
+};
+
+export type CreateAccountInfoMutation = {
+  createAccountInfo?:  {
+    __typename: "AccountInfo",
+    userSub: string,
+    firstName?: string | null,
+    lastName?: string | null,
+    phoneNumber?: number | null,
+    address?: string | null,
+    address2?: string | null,
+    city?: string | null,
+    state?: string | null,
+    zipcode?: string | null,
+    id: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type UpdateAccountInfoMutationVariables = {
+  input: UpdateAccountInfoInput,
+  condition?: ModelAccountInfoConditionInput | null,
+};
+
+export type UpdateAccountInfoMutation = {
+  updateAccountInfo?:  {
+    __typename: "AccountInfo",
+    userSub: string,
+    firstName?: string | null,
+    lastName?: string | null,
+    phoneNumber?: number | null,
+    address?: string | null,
+    address2?: string | null,
+    city?: string | null,
+    state?: string | null,
+    zipcode?: string | null,
+    id: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type DeleteAccountInfoMutationVariables = {
+  input: DeleteAccountInfoInput,
+  condition?: ModelAccountInfoConditionInput | null,
+};
+
+export type DeleteAccountInfoMutation = {
+  deleteAccountInfo?:  {
+    __typename: "AccountInfo",
+    userSub: string,
+    firstName?: string | null,
+    lastName?: string | null,
+    phoneNumber?: number | null,
+    address?: string | null,
+    address2?: string | null,
+    city?: string | null,
+    state?: string | null,
+    zipcode?: string | null,
+    id: string,
     createdAt: string,
     updatedAt: string,
     _version: number,
@@ -652,6 +1224,369 @@ export type SyncCartProductsQuery = {
   } | null,
 };
 
+export type GetOrderQueryVariables = {
+  id: string,
+};
+
+export type GetOrderQuery = {
+  getOrder?:  {
+    __typename: "Order",
+    id: string,
+    userSub: string,
+    firstName: string,
+    lastName: string,
+    phoneNumber?: number | null,
+    address?: string | null,
+    address2?: string | null,
+    city?: string | null,
+    state?: string | null,
+    zipcode?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListOrdersQueryVariables = {
+  filter?: ModelOrderFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListOrdersQuery = {
+  listOrders?:  {
+    __typename: "ModelOrderConnection",
+    items:  Array< {
+      __typename: "Order",
+      id: string,
+      userSub: string,
+      firstName: string,
+      lastName: string,
+      phoneNumber?: number | null,
+      address?: string | null,
+      address2?: string | null,
+      city?: string | null,
+      state?: string | null,
+      zipcode?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncOrdersQueryVariables = {
+  filter?: ModelOrderFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncOrdersQuery = {
+  syncOrders?:  {
+    __typename: "ModelOrderConnection",
+    items:  Array< {
+      __typename: "Order",
+      id: string,
+      userSub: string,
+      firstName: string,
+      lastName: string,
+      phoneNumber?: number | null,
+      address?: string | null,
+      address2?: string | null,
+      city?: string | null,
+      state?: string | null,
+      zipcode?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetOrderProductQueryVariables = {
+  id: string,
+};
+
+export type GetOrderProductQuery = {
+  getOrderProduct?:  {
+    __typename: "OrderProduct",
+    id: string,
+    quantity: number,
+    option?: string | null,
+    productID: string,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      title: string,
+      description?: string | null,
+      image: string,
+      images: Array< string >,
+      options?: Array< string > | null,
+      avgRating?: number | null,
+      ratings?: number | null,
+      price: number,
+      oldPrice?: number | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    orderID: string,
+    order?:  {
+      __typename: "Order",
+      id: string,
+      userSub: string,
+      firstName: string,
+      lastName: string,
+      phoneNumber?: number | null,
+      address?: string | null,
+      address2?: string | null,
+      city?: string | null,
+      state?: string | null,
+      zipcode?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListOrderProductsQueryVariables = {
+  filter?: ModelOrderProductFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListOrderProductsQuery = {
+  listOrderProducts?:  {
+    __typename: "ModelOrderProductConnection",
+    items:  Array< {
+      __typename: "OrderProduct",
+      id: string,
+      quantity: number,
+      option?: string | null,
+      productID: string,
+      product?:  {
+        __typename: "Product",
+        id: string,
+        title: string,
+        description?: string | null,
+        image: string,
+        images: Array< string >,
+        options?: Array< string > | null,
+        avgRating?: number | null,
+        ratings?: number | null,
+        price: number,
+        oldPrice?: number | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null,
+      orderID: string,
+      order?:  {
+        __typename: "Order",
+        id: string,
+        userSub: string,
+        firstName: string,
+        lastName: string,
+        phoneNumber?: number | null,
+        address?: string | null,
+        address2?: string | null,
+        city?: string | null,
+        state?: string | null,
+        zipcode?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncOrderProductsQueryVariables = {
+  filter?: ModelOrderProductFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncOrderProductsQuery = {
+  syncOrderProducts?:  {
+    __typename: "ModelOrderProductConnection",
+    items:  Array< {
+      __typename: "OrderProduct",
+      id: string,
+      quantity: number,
+      option?: string | null,
+      productID: string,
+      product?:  {
+        __typename: "Product",
+        id: string,
+        title: string,
+        description?: string | null,
+        image: string,
+        images: Array< string >,
+        options?: Array< string > | null,
+        avgRating?: number | null,
+        ratings?: number | null,
+        price: number,
+        oldPrice?: number | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null,
+      orderID: string,
+      order?:  {
+        __typename: "Order",
+        id: string,
+        userSub: string,
+        firstName: string,
+        lastName: string,
+        phoneNumber?: number | null,
+        address?: string | null,
+        address2?: string | null,
+        city?: string | null,
+        state?: string | null,
+        zipcode?: string | null,
+        createdAt: string,
+        updatedAt: string,
+        _version: number,
+        _deleted?: boolean | null,
+        _lastChangedAt: number,
+      } | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type GetAccountInfoQueryVariables = {
+  id: string,
+};
+
+export type GetAccountInfoQuery = {
+  getAccountInfo?:  {
+    __typename: "AccountInfo",
+    userSub: string,
+    firstName?: string | null,
+    lastName?: string | null,
+    phoneNumber?: number | null,
+    address?: string | null,
+    address2?: string | null,
+    city?: string | null,
+    state?: string | null,
+    zipcode?: string | null,
+    id: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type ListAccountInfosQueryVariables = {
+  filter?: ModelAccountInfoFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListAccountInfosQuery = {
+  listAccountInfos?:  {
+    __typename: "ModelAccountInfoConnection",
+    items:  Array< {
+      __typename: "AccountInfo",
+      userSub: string,
+      firstName?: string | null,
+      lastName?: string | null,
+      phoneNumber?: number | null,
+      address?: string | null,
+      address2?: string | null,
+      city?: string | null,
+      state?: string | null,
+      zipcode?: string | null,
+      id: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
+export type SyncAccountInfosQueryVariables = {
+  filter?: ModelAccountInfoFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
+};
+
+export type SyncAccountInfosQuery = {
+  syncAccountInfos?:  {
+    __typename: "ModelAccountInfoConnection",
+    items:  Array< {
+      __typename: "AccountInfo",
+      userSub: string,
+      firstName?: string | null,
+      lastName?: string | null,
+      phoneNumber?: number | null,
+      address?: string | null,
+      address2?: string | null,
+      city?: string | null,
+      state?: string | null,
+      zipcode?: string | null,
+      id: string,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } >,
+    nextToken?: string | null,
+    startedAt?: number | null,
+  } | null,
+};
+
 export type OnCreateProductSubscription = {
   onCreateProduct?:  {
     __typename: "Product",
@@ -809,6 +1744,288 @@ export type OnDeleteCartProductSubscription = {
       _deleted?: boolean | null,
       _lastChangedAt: number,
     } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnCreateOrderSubscription = {
+  onCreateOrder?:  {
+    __typename: "Order",
+    id: string,
+    userSub: string,
+    firstName: string,
+    lastName: string,
+    phoneNumber?: number | null,
+    address?: string | null,
+    address2?: string | null,
+    city?: string | null,
+    state?: string | null,
+    zipcode?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdateOrderSubscription = {
+  onUpdateOrder?:  {
+    __typename: "Order",
+    id: string,
+    userSub: string,
+    firstName: string,
+    lastName: string,
+    phoneNumber?: number | null,
+    address?: string | null,
+    address2?: string | null,
+    city?: string | null,
+    state?: string | null,
+    zipcode?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteOrderSubscription = {
+  onDeleteOrder?:  {
+    __typename: "Order",
+    id: string,
+    userSub: string,
+    firstName: string,
+    lastName: string,
+    phoneNumber?: number | null,
+    address?: string | null,
+    address2?: string | null,
+    city?: string | null,
+    state?: string | null,
+    zipcode?: string | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnCreateOrderProductSubscription = {
+  onCreateOrderProduct?:  {
+    __typename: "OrderProduct",
+    id: string,
+    quantity: number,
+    option?: string | null,
+    productID: string,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      title: string,
+      description?: string | null,
+      image: string,
+      images: Array< string >,
+      options?: Array< string > | null,
+      avgRating?: number | null,
+      ratings?: number | null,
+      price: number,
+      oldPrice?: number | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    orderID: string,
+    order?:  {
+      __typename: "Order",
+      id: string,
+      userSub: string,
+      firstName: string,
+      lastName: string,
+      phoneNumber?: number | null,
+      address?: string | null,
+      address2?: string | null,
+      city?: string | null,
+      state?: string | null,
+      zipcode?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdateOrderProductSubscription = {
+  onUpdateOrderProduct?:  {
+    __typename: "OrderProduct",
+    id: string,
+    quantity: number,
+    option?: string | null,
+    productID: string,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      title: string,
+      description?: string | null,
+      image: string,
+      images: Array< string >,
+      options?: Array< string > | null,
+      avgRating?: number | null,
+      ratings?: number | null,
+      price: number,
+      oldPrice?: number | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    orderID: string,
+    order?:  {
+      __typename: "Order",
+      id: string,
+      userSub: string,
+      firstName: string,
+      lastName: string,
+      phoneNumber?: number | null,
+      address?: string | null,
+      address2?: string | null,
+      city?: string | null,
+      state?: string | null,
+      zipcode?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteOrderProductSubscription = {
+  onDeleteOrderProduct?:  {
+    __typename: "OrderProduct",
+    id: string,
+    quantity: number,
+    option?: string | null,
+    productID: string,
+    product?:  {
+      __typename: "Product",
+      id: string,
+      title: string,
+      description?: string | null,
+      image: string,
+      images: Array< string >,
+      options?: Array< string > | null,
+      avgRating?: number | null,
+      ratings?: number | null,
+      price: number,
+      oldPrice?: number | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    orderID: string,
+    order?:  {
+      __typename: "Order",
+      id: string,
+      userSub: string,
+      firstName: string,
+      lastName: string,
+      phoneNumber?: number | null,
+      address?: string | null,
+      address2?: string | null,
+      city?: string | null,
+      state?: string | null,
+      zipcode?: string | null,
+      createdAt: string,
+      updatedAt: string,
+      _version: number,
+      _deleted?: boolean | null,
+      _lastChangedAt: number,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnCreateAccountInfoSubscription = {
+  onCreateAccountInfo?:  {
+    __typename: "AccountInfo",
+    userSub: string,
+    firstName?: string | null,
+    lastName?: string | null,
+    phoneNumber?: number | null,
+    address?: string | null,
+    address2?: string | null,
+    city?: string | null,
+    state?: string | null,
+    zipcode?: string | null,
+    id: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnUpdateAccountInfoSubscription = {
+  onUpdateAccountInfo?:  {
+    __typename: "AccountInfo",
+    userSub: string,
+    firstName?: string | null,
+    lastName?: string | null,
+    phoneNumber?: number | null,
+    address?: string | null,
+    address2?: string | null,
+    city?: string | null,
+    state?: string | null,
+    zipcode?: string | null,
+    id: string,
+    createdAt: string,
+    updatedAt: string,
+    _version: number,
+    _deleted?: boolean | null,
+    _lastChangedAt: number,
+  } | null,
+};
+
+export type OnDeleteAccountInfoSubscription = {
+  onDeleteAccountInfo?:  {
+    __typename: "AccountInfo",
+    userSub: string,
+    firstName?: string | null,
+    lastName?: string | null,
+    phoneNumber?: number | null,
+    address?: string | null,
+    address2?: string | null,
+    city?: string | null,
+    state?: string | null,
+    zipcode?: string | null,
+    id: string,
     createdAt: string,
     updatedAt: string,
     _version: number,

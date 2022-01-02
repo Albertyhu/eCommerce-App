@@ -208,3 +208,345 @@ export const syncCartProducts = /* GraphQL */ `
     }
   }
 `;
+export const getOrder = /* GraphQL */ `
+  query GetOrder($id: ID!) {
+    getOrder(id: $id) {
+      id
+      userSub
+      firstName
+      lastName
+      phoneNumber
+      address
+      address2
+      city
+      state
+      zipcode
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listOrders = /* GraphQL */ `
+  query ListOrders(
+    $filter: ModelOrderFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listOrders(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userSub
+        firstName
+        lastName
+        phoneNumber
+        address
+        address2
+        city
+        state
+        zipcode
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncOrders = /* GraphQL */ `
+  query SyncOrders(
+    $filter: ModelOrderFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncOrders(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        userSub
+        firstName
+        lastName
+        phoneNumber
+        address
+        address2
+        city
+        state
+        zipcode
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getOrderProduct = /* GraphQL */ `
+  query GetOrderProduct($id: ID!) {
+    getOrderProduct(id: $id) {
+      id
+      quantity
+      option
+      productID
+      product {
+        id
+        title
+        description
+        image
+        images
+        options
+        avgRating
+        ratings
+        price
+        oldPrice
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      orderID
+      order {
+        id
+        userSub
+        firstName
+        lastName
+        phoneNumber
+        address
+        address2
+        city
+        state
+        zipcode
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listOrderProducts = /* GraphQL */ `
+  query ListOrderProducts(
+    $filter: ModelOrderProductFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listOrderProducts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        quantity
+        option
+        productID
+        product {
+          id
+          title
+          description
+          image
+          images
+          options
+          avgRating
+          ratings
+          price
+          oldPrice
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        orderID
+        order {
+          id
+          userSub
+          firstName
+          lastName
+          phoneNumber
+          address
+          address2
+          city
+          state
+          zipcode
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncOrderProducts = /* GraphQL */ `
+  query SyncOrderProducts(
+    $filter: ModelOrderProductFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncOrderProducts(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        quantity
+        option
+        productID
+        product {
+          id
+          title
+          description
+          image
+          images
+          options
+          avgRating
+          ratings
+          price
+          oldPrice
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        orderID
+        order {
+          id
+          userSub
+          firstName
+          lastName
+          phoneNumber
+          address
+          address2
+          city
+          state
+          zipcode
+          createdAt
+          updatedAt
+          _version
+          _deleted
+          _lastChangedAt
+        }
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getAccountInfo = /* GraphQL */ `
+  query GetAccountInfo($id: ID!) {
+    getAccountInfo(id: $id) {
+      userSub
+      firstName
+      lastName
+      phoneNumber
+      address
+      address2
+      city
+      state
+      zipcode
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listAccountInfos = /* GraphQL */ `
+  query ListAccountInfos(
+    $filter: ModelAccountInfoFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAccountInfos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        userSub
+        firstName
+        lastName
+        phoneNumber
+        address
+        address2
+        city
+        state
+        zipcode
+        id
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncAccountInfos = /* GraphQL */ `
+  query SyncAccountInfos(
+    $filter: ModelAccountInfoFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncAccountInfos(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        userSub
+        firstName
+        lastName
+        phoneNumber
+        address
+        address2
+        city
+        state
+        zipcode
+        id
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;

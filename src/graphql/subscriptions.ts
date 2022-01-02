@@ -164,3 +164,279 @@ export const onDeleteCartProduct = /* GraphQL */ `
     }
   }
 `;
+export const onCreateOrder = /* GraphQL */ `
+  subscription OnCreateOrder {
+    onCreateOrder {
+      id
+      userSub
+      firstName
+      lastName
+      phoneNumber
+      address
+      address2
+      city
+      state
+      zipcode
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateOrder = /* GraphQL */ `
+  subscription OnUpdateOrder {
+    onUpdateOrder {
+      id
+      userSub
+      firstName
+      lastName
+      phoneNumber
+      address
+      address2
+      city
+      state
+      zipcode
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteOrder = /* GraphQL */ `
+  subscription OnDeleteOrder {
+    onDeleteOrder {
+      id
+      userSub
+      firstName
+      lastName
+      phoneNumber
+      address
+      address2
+      city
+      state
+      zipcode
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onCreateOrderProduct = /* GraphQL */ `
+  subscription OnCreateOrderProduct {
+    onCreateOrderProduct {
+      id
+      quantity
+      option
+      productID
+      product {
+        id
+        title
+        description
+        image
+        images
+        options
+        avgRating
+        ratings
+        price
+        oldPrice
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      orderID
+      order {
+        id
+        userSub
+        firstName
+        lastName
+        phoneNumber
+        address
+        address2
+        city
+        state
+        zipcode
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateOrderProduct = /* GraphQL */ `
+  subscription OnUpdateOrderProduct {
+    onUpdateOrderProduct {
+      id
+      quantity
+      option
+      productID
+      product {
+        id
+        title
+        description
+        image
+        images
+        options
+        avgRating
+        ratings
+        price
+        oldPrice
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      orderID
+      order {
+        id
+        userSub
+        firstName
+        lastName
+        phoneNumber
+        address
+        address2
+        city
+        state
+        zipcode
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteOrderProduct = /* GraphQL */ `
+  subscription OnDeleteOrderProduct {
+    onDeleteOrderProduct {
+      id
+      quantity
+      option
+      productID
+      product {
+        id
+        title
+        description
+        image
+        images
+        options
+        avgRating
+        ratings
+        price
+        oldPrice
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      orderID
+      order {
+        id
+        userSub
+        firstName
+        lastName
+        phoneNumber
+        address
+        address2
+        city
+        state
+        zipcode
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onCreateAccountInfo = /* GraphQL */ `
+  subscription OnCreateAccountInfo {
+    onCreateAccountInfo {
+      userSub
+      firstName
+      lastName
+      phoneNumber
+      address
+      address2
+      city
+      state
+      zipcode
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onUpdateAccountInfo = /* GraphQL */ `
+  subscription OnUpdateAccountInfo {
+    onUpdateAccountInfo {
+      userSub
+      firstName
+      lastName
+      phoneNumber
+      address
+      address2
+      city
+      state
+      zipcode
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const onDeleteAccountInfo = /* GraphQL */ `
+  subscription OnDeleteAccountInfo {
+    onDeleteAccountInfo {
+      userSub
+      firstName
+      lastName
+      phoneNumber
+      address
+      address2
+      city
+      state
+      zipcode
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;

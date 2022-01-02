@@ -1,17 +1,15 @@
 import React from 'react';
 import {View, StyleSheet, Text, TextInput, Image } from 'react-native';
-import {DataStore} from 'aws-amplify';
-import {Product, CartProduct} from '../src/models/index.js';
+import {DataStore, Auth} from 'aws-amplify';
 
-const CheckOut = () =>{
+const Summary = () =>{
 return(
     <View style = {styles.container}>
-        <Text>check out page</Text>
     </View>
 )
 }
 
-export default CheckOut;
+export default Summary;
 
 const styles = StyleSheet.create({
 container: {

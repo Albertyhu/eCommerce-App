@@ -1,2 +1,6 @@
 export const RETRIEVE_CART = 'RETRIEVE_CART';
 export const  CALC_TOTAL_ITEMS = 'CALC_TOTAL_ITEMS';
+
+export const RETRIEVE_USERDATA = 'RETRIEVE_USERDATA';
+
+export const FILL_PROFILE = 'FILL_PROFILE';

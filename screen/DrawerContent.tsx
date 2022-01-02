@@ -12,12 +12,13 @@ import {CartProduct} from '../src/models/index.js';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {SupportContext} from '../component/DrawerContext.tsx';
+import {fetchCartP} from '../redux/action';
 
 import Home from './home.tsx';
 import ProductScreen from './product.tsx';
 import ShoppingCartScreen from './ShoppingCart.tsx';
 import SearchScreen from './search.js';
-import {fetchCartP} from '../redux/action';
+import AccountScreen from './Account.tsx';
 
 const popAction = StackActions.pop(1);
 
@@ -84,6 +85,19 @@ return (
                 }]
                 </Text>}
                onPress = {()=>{props.navigation.navigate('ShoppingCartScreen')}}
+               style = {styles.drawerItem}
+
+           />
+           <DrawerItem
+               icon={({color, size}) => (
+                   <Icon
+                       name='person-outline'
+                       color={color}
+                       size={size}
+                   />
+               )}
+               label = 'Account'
+               onPress = {()=>{props.navigation.navigate('AccountScreen')}}
                style = {styles.drawerItem}
 
            />

@@ -26,3 +26,41 @@ type CartProduct @model @auth(rules: [{ allow: public }]) {
   productID: ID!
   product: Product @hasOne(fields: ["productID"])
 }
+
+type Order @model @auth(rules: [{ allow: public }]){
+    id: ID!
+    userSub: String!
+    firstName: String!
+    lastName: String!
+    phoneNumber: Int
+    address: String
+    address2: String
+    city: String
+    state: String
+    zipcode: String
+
+}
+
+type OrderProduct @model @auth(rules: [{allow:public}]){
+    id: ID!
+    quantity: Int!
+    option: String
+    productID: ID!
+    product: Product @hasOne(fields: ["productID"])
+
+    orderID: ID!
+    order: Order @hasOne(fields: ["orderID"])
+}
+
+type AccountInfo @model @auth(rules:[{allow: public}]){
+    userSub: String!
+    firstName: String
+    lastName: String
+    phoneNumber: Int
+    address: String
+    address2: String
+    city: String
+    state: String
+    zipcode: String
+    email: String
+}

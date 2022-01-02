@@ -20,7 +20,7 @@ import Home from './screen/home.tsx';
 import ProductScreen from './screen/product.tsx';
 import ShoppingCartScreen from './screen/ShoppingCart.tsx';
 import RootStack from './screen/rootstack.tsx';
-import CheckOutScreen from './screen/checkout.js';
+import CheckOutScreen from './screen/checkout.tsx';
 import DrawerContent from './screen/DrawerContent.tsx';
 import RootReducer from './redux/reducers';
 
