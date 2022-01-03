@@ -419,6 +419,7 @@ export const createAccountInfo = /* GraphQL */ `
     $condition: ModelAccountInfoConditionInput
   ) {
     createAccountInfo(input: $input, condition: $condition) {
+      id
       userSub
       firstName
       lastName
@@ -428,7 +429,7 @@ export const createAccountInfo = /* GraphQL */ `
       city
       state
       zipcode
-      id
+      email
       createdAt
       updatedAt
       _version
@@ -443,6 +444,7 @@ export const updateAccountInfo = /* GraphQL */ `
     $condition: ModelAccountInfoConditionInput
   ) {
     updateAccountInfo(input: $input, condition: $condition) {
+      id
       userSub
       firstName
       lastName
@@ -452,7 +454,7 @@ export const updateAccountInfo = /* GraphQL */ `
       city
       state
       zipcode
-      id
+      email
       createdAt
       updatedAt
       _version
@@ -467,6 +469,7 @@ export const deleteAccountInfo = /* GraphQL */ `
     $condition: ModelAccountInfoConditionInput
   ) {
     deleteAccountInfo(input: $input, condition: $condition) {
+      id
       userSub
       firstName
       lastName
@@ -476,7 +479,7 @@ export const deleteAccountInfo = /* GraphQL */ `
       city
       state
       zipcode
-      id
+      email
       createdAt
       updatedAt
       _version

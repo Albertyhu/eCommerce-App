@@ -468,7 +468,7 @@ export const schema = {
                 "phoneNumber": {
                     "name": "phoneNumber",
                     "isArray": false,
-                    "type": "Int",
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -502,6 +502,13 @@ export const schema = {
                 },
                 "zipcode": {
                     "name": "zipcode",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "email": {
+                    "name": "email",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -552,5 +559,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "05274a205afad99f2b7fe49056f1c81e"
+    "version": "e7781b835105a56993796c89a3b5e1c9"
 };

@@ -16,7 +16,7 @@ const [editMode, setEditMode] = useState(false);
 
 const [fname, setFname] = useState<String>(null);
 const [lname, setLname] = useState<String>(null);
-const [phone, setPhone] = useState<Int>(null);
+const [phone, setPhone] = useState<String>(null);
 const [email, setEmail] = useState<String>(null);
 const [address, setAddress] = useState<String>(null);
 const [address2, setAddress2] = useState<String>(null);
@@ -59,14 +59,15 @@ if(userData.attributes.email !== email){
 const saveInfo = async () =>{
     fillPersonalInfo(fname, lname, phone, email, address, address2, city, state, zip);
     //check for any existing personal info in DataStore first
-    const currentUser = await DataStore.query(AccountInfo, userData.attributes.sub)
+    const currentUser = await DataStore.query(AccountInfo, val => val.userSub('eq', userData.attributes.sub))
     //if there is an exsiting account
     saveEmail();
-    if(currentUser){
-        await DataStore.save(AccountInfo.copyOf(currentUser, updated => {
+    if(currentUser.length > 0){
+        await DataStore.save(AccountInfo.copyOf(currentUser[0], updated => {
             updated.firstName = fname;
             updated.lastName = lname;
             updated.phoneNumber = phone;
+            updated.address = address;
             updated.address = address;
             updated.address2 = address2;
             updated.city= city;
@@ -101,16 +102,17 @@ const handleZip = (val, dispatch) =>{
 
 //retrieves existing personal information about the user
 const retrieveUser = async () =>{
-     const currentUser = await DataStore.query(AccountInfo,userData.attributes.sub)
-     if(currentUser){
-        setFname(currentUser.firstName)
-        setLname(currentUser.lastName)
-        setPhone(currentUser.phoneNumber)
-        setAddress(currentUser.address)
-        setAddress2(currentUser.address2)
-        setCity(currentUser.city)
-        setState(currentUser.state)
-        setZip(currentUser.zipcode)
+     const userID = await Auth.currentAuthenticatedUser()
+     const currentUser = await DataStore.query(AccountInfo, val => val.userSub('eq', userID.attributes.sub))
+     if(currentUser.length > 0){
+        setFname(currentUser[0].firstName)
+        setLname(currentUser[0].lastName)
+        setPhone(currentUser[0].phoneNumber)
+        setAddress(currentUser[0].address)
+        setAddress2(currentUser[0].address2)
+        setCity(currentUser[0].city)
+        setState(currentUser[0].state)
+        setZip(currentUser[0].zipcode)
 
      }
 
@@ -119,13 +121,18 @@ const retrieveUser = async () =>{
 useEffect(async ()=>{
     const userDat = await Auth.currentAuthenticatedUser();
     setUserData(userDat)
+   // console.log(userData.attributes.sub)
     if(userDat){
         setEmail(userDat.attributes.email)
         }
 
-    //retrieves existing personal information about the user
-    //retrieveUser();
+
 },[])
+
+useEffect(()=>{
+    //retrieves existing personal information about the user
+    retrieveUser();
+}, [userData])
 
 return(
 <ScrollView>
@@ -241,11 +248,10 @@ return(
            <View style = {styles.phoneContainer}>
                   <TextInput
                       placeholder = 'Phone number'
-                      value = {phone.toString()}
-                      onChangeText = {val => setPhone(Number(val))}
+                      value = {phone ? phone.toString() : ''}
+                      onChangeText = {val => setPhone(val)}
                       style = {styles.textInput}
                       keyboardType = 'numeric'
-
                   />
           </View>
          <View style = {styles.phoneContainer}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {RETRIEVE_USERDATA, FILL_PROFILE} from '../constants';
+import {RETRIEVE_USERDATA, FILL_PROFILE, SET_NAME} from '../constants';
 
 const initialState = {
     userData: '',
@@ -33,6 +33,11 @@ export const PersonalInfoReducer = (state = initialState, action) =>{
             city: action.city,
             state: action.state,
             zip: action.zipcode,
+        }
+        case SET_NAME:
+        return{
+            fName: action.firstName,
+            lName: action.lastName,
         }
         default:
           return state;

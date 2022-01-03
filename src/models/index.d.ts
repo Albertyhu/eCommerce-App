@@ -90,12 +90,13 @@ export declare class AccountInfo {
   readonly userSub: string;
   readonly firstName?: string;
   readonly lastName?: string;
-  readonly phoneNumber?: number;
+  readonly phoneNumber?: string;
   readonly address?: string;
   readonly address2?: string;
   readonly city?: string;
   readonly state?: string;
   readonly zipcode?: string;
+  readonly email?: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<AccountInfo, AccountInfoMetaData>);

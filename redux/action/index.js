@@ -1,6 +1,6 @@
-import {Product, CartProduct} from '../../src/models/index.js';
+import {Product, CartProduct, AccountInfo} from '../../src/models/index.js';
 import {DataStore, Auth} from 'aws-amplify';
-import {RETRIEVE_CART,  CALC_TOTAL_ITEMS, RETRIEVE_USERDATA, FILL_PROFILE} from '../constants/index.js';
+import {RETRIEVE_CART,  CALC_TOTAL_ITEMS, RETRIEVE_USERDATA, FILL_PROFILE, SET_NAME} from '../constants/index.js';
 
 export function fetchCartP(){
     return (async (dispatch)=>{
@@ -71,5 +71,18 @@ export function fillPersonalInfo(
             state: State,
             zipcode: Zip,
         })
+    })
+}
+
+export function retrieveName(){
+    return(async (dispatch) =>{
+        const userData = await Auth.currentAuthenticatedUser();
+        const data = await DataStore.query(AccountInfo, val => val.userSub('eq', userData.attributes.sub))
+        if(data === null){
+            return;
+        }
+        else{
+            dispatch({type: SET_NAME, firstName: data[0].firstName, lastName: data[0].lastName, })
+        }
     })
 }

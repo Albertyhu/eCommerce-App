@@ -12,7 +12,7 @@ import {CartProduct} from '../src/models/index.js';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {SupportContext} from '../component/DrawerContext.tsx';
-import {fetchCartP} from '../redux/action';
+import {fetchCartP, retrieveName} from '../redux/action';
 
 import Home from './home.tsx';
 import ProductScreen from './product.tsx';
@@ -24,8 +24,8 @@ const popAction = StackActions.pop(1);
 
 function DrawerContent(props) {
 
-const {fetchCartP} = props;
-const {Cart_data, TotalItem_redux} = props;
+const {fetchCartP, retrieveName} = props;
+const {Cart_data, TotalItem_redux, firstName, lastName} = props;
 const [cart, setCart] = useState<CartProduct[]>([])
 const [totalItems, setTotal] = useState<Int>(0);
 const {returnItemTotal, setItemTotal} = React.useContext(SupportContext);
@@ -46,7 +46,7 @@ const sumTotalItems = () =>{
 }
 useEffect(()=>{
     fetchCartP();
-
+    retrieveName();
 }, [])
 
 useEffect(()=>{
@@ -57,6 +57,14 @@ useEffect(()=>{
 return (
 <View style = {styles.drawerContainer}>
     <DrawerContentScrollView {...props}>
+    { firstName && lastName ?
+        <View style = {styles.nameContainer}>
+            <Text style = {{fontWeight: 'bold'}}>User: </Text>
+            <Text>{firstName} {lastName}</Text>
+        </View>
+        :
+        null
+      }
         <View style = {styles.title}>
             <Text style = {{fontSize: 20,}}>Menu</Text>
         </View>
@@ -139,9 +147,11 @@ const mapStateToProps = store => {
     return{
         Cart_data: [...store.CartReducer.cartArray],
         TotalItem_redux: store.CartReducer.totalQuantity,
+        firstName: store.UserReducer.fName,
+        lastName: store.UserReducer.lName,
     }
 }
-const mapDispatchToProps = dispatch => bindActionCreators({fetchCartP}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({fetchCartP, retrieveName}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(DrawerContent);
 
@@ -165,6 +175,10 @@ const styles = StyleSheet.create({
   drawerItem:{},
   menuButton:{
     marginLeft: 10,
+  },
+  nameContainer:{
+    flexDirection: 'row',
+    marginHorizontal: 20,
   },
   title: {
     marginHorizontal: 20,

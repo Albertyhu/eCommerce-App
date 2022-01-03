@@ -468,6 +468,7 @@ export const syncOrderProducts = /* GraphQL */ `
 export const getAccountInfo = /* GraphQL */ `
   query GetAccountInfo($id: ID!) {
     getAccountInfo(id: $id) {
+      id
       userSub
       firstName
       lastName
@@ -477,7 +478,7 @@ export const getAccountInfo = /* GraphQL */ `
       city
       state
       zipcode
-      id
+      email
       createdAt
       updatedAt
       _version
@@ -494,6 +495,7 @@ export const listAccountInfos = /* GraphQL */ `
   ) {
     listAccountInfos(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        id
         userSub
         firstName
         lastName
@@ -503,7 +505,7 @@ export const listAccountInfos = /* GraphQL */ `
         city
         state
         zipcode
-        id
+        email
         createdAt
         updatedAt
         _version
@@ -529,6 +531,7 @@ export const syncAccountInfos = /* GraphQL */ `
       lastSync: $lastSync
     ) {
       items {
+        id
         userSub
         firstName
         lastName
@@ -538,7 +541,7 @@ export const syncAccountInfos = /* GraphQL */ `
         city
         state
         zipcode
-        id
+        email
         createdAt
         updatedAt
         _version

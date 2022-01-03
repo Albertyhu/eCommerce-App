@@ -380,6 +380,7 @@ export const onDeleteOrderProduct = /* GraphQL */ `
 export const onCreateAccountInfo = /* GraphQL */ `
   subscription OnCreateAccountInfo {
     onCreateAccountInfo {
+      id
       userSub
       firstName
       lastName
@@ -389,7 +390,7 @@ export const onCreateAccountInfo = /* GraphQL */ `
       city
       state
       zipcode
-      id
+      email
       createdAt
       updatedAt
       _version
@@ -401,6 +402,7 @@ export const onCreateAccountInfo = /* GraphQL */ `
 export const onUpdateAccountInfo = /* GraphQL */ `
   subscription OnUpdateAccountInfo {
     onUpdateAccountInfo {
+      id
       userSub
       firstName
       lastName
@@ -410,7 +412,7 @@ export const onUpdateAccountInfo = /* GraphQL */ `
       city
       state
       zipcode
-      id
+      email
       createdAt
       updatedAt
       _version
@@ -422,6 +424,7 @@ export const onUpdateAccountInfo = /* GraphQL */ `
 export const onDeleteAccountInfo = /* GraphQL */ `
   subscription OnDeleteAccountInfo {
     onDeleteAccountInfo {
+      id
       userSub
       firstName
       lastName
@@ -431,7 +434,7 @@ export const onDeleteAccountInfo = /* GraphQL */ `
       city
       state
       zipcode
-      id
+      email
       createdAt
       updatedAt
       _version
