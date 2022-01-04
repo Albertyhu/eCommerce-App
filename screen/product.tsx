@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {View, StyleSheet, Text, TextInput, Image, Dimensions, TouchableOpacity, ScrollView } from 'react-native';
+import {View, StyleSheet, Text, TextInput, Image, Dimensions, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import Constant from 'expo-constants';
 import {openDrawer } from '@react-navigation/drawer';
 import {useNavigation} from '@react-navigation/native';
@@ -171,6 +171,7 @@ else{
 useEffect(()=>{
    // fetchStore();
     fetchProduct();
+
 }, [])
 
 
@@ -218,6 +219,10 @@ if(product?.description){
    }
 }, [expandButton])
 /*product description end code */
+
+if(!product){
+    return <ActivityIndicator />
+}
 
 return(
 <ScrollView>

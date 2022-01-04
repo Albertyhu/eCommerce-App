@@ -38,7 +38,11 @@ const navi = useNavigation();
             title: 'Home',
             headerLeft: ()=>(<Icon name = 'ios-menu' color = '#000' size = {25} onPress = {props.navigation.openDrawer} style = {styles.menuButton}/> ),
             headerStyle: {backgroundColor: '#cdbc00'},
-            headerRight: ()=>(<Text style = {styles.name}>Welcome, {firstName} {lastName}</Text>)
+            headerRight: ()=>(
+
+                                   <Text style = {styles.name}>Welcome, {firstName} {lastName}</Text>
+
+                                   )
         }}/>
         <Stack.Screen name = 'ProductScreen' component = {ProductScreen} navigation = {navigation} options = {{
             title: "Product",

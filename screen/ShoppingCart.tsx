@@ -217,6 +217,15 @@ const updateQuantity = async (val, product_id) =>{
 // useIsFocused() is necessary because without it, the Shopping Cart list isn't updated whenever a new item is added.
 const isFocused =  useIsFocused();
 
+//The following code cleans up the state to prevent the following error
+//Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application.
+useEffect(()=>{
+return () =>{
+    setCart([])
+    setProduct([])
+}
+}, [])
+
 useEffect(()=>{
    fetchCartItems();
    fetchProducts();
