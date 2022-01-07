@@ -245,7 +245,7 @@ export const schema = {
                 "phoneNumber": {
                     "name": "phoneNumber",
                     "isArray": false,
-                    "type": "Int",
+                    "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -558,6 +558,19 @@ export const schema = {
         }
     },
     "enums": {},
-    "nonModels": {},
-    "version": "e7781b835105a56993796c89a3b5e1c9"
+    "nonModels": {
+        "PaymentIntent": {
+            "name": "PaymentIntent",
+            "fields": {
+                "clientSecret": {
+                    "name": "clientSecret",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                }
+            }
+        }
+    },
+    "version": "dfb1982f9af4e50b37f78388f50b69a8"
 };

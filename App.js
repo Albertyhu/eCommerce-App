@@ -15,6 +15,7 @@ import config from './src/aws-exports'
 import {SupportContext} from './component/DrawerContext.tsx';
 import {DataStore, Auth} from 'aws-amplify';
 import {Product, CartProduct} from './src/models';
+import {StripeProvider} from '@stripe/stripe-react-native';
 
 import Home from './screen/home.tsx';
 import ProductScreen from './screen/product.tsx';
@@ -63,6 +64,7 @@ calTotalQuantity: async ()=>{
 }))
 
   return (
+  <StripeProvider publishableKey= "pk_test_X5u01aRsZYx0LQjmlarWfYiD">
   <SupportContext.Provider value = {context}>
   <Provider store = {store}>
   <NavigationContainer>
@@ -78,6 +80,7 @@ calTotalQuantity: async ()=>{
   </NavigationContainer>
   </Provider>
   </SupportContext.Provider>
+  </StripeProvider>
   );
 }
 

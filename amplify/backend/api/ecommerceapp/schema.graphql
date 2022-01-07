@@ -32,7 +32,7 @@ type Order @model @auth(rules: [{ allow: public }]){
     userSub: String!
     firstName: String!
     lastName: String!
-    phoneNumber: Int
+    phoneNumber: String
     address: String
     address2: String
     city: String
@@ -64,4 +64,15 @@ type AccountInfo @model @auth(rules:[{allow: public}]){
     state: String
     zipcode: String
     email: String
+}
+
+
+#We don't add @model this following block because we don't need to create a separate database.
+# @function(name: "CreatePaymentIntent-${env}") supposedly links to the Lambda function
+type Mutation {
+    createPaymentIntent(amount: Int!): PaymentIntent! @function(name: "CreatePaymentIntent-${env}")
+}
+
+type PaymentIntent{
+    clientSecret: String!
 }

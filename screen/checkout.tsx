@@ -1,17 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, TextInput, Image, Dimensions, TouchableOpacity, ScrollView, Switch } from 'react-native';
-import {DataStore} from 'aws-amplify';
-import {Product, CartProduct} from '../src/models/index.js';
+import {View, StyleSheet, Text, TextInput, Image, Dimensions, TouchableOpacity, ScrollView, Switch, Alert } from 'react-native';
+import {DataStore, Auth, API, graphqlOperation } from 'aws-amplify';
+import {Product, CartProduct, Order, OrderProduct} from '../src/models/index.js';
 import {connect } from 'react-redux';
 import {bindActionCreator} from 'redux';
 import Icons from 'react-native-vector-icons/Ionicons';
+import {useStripe} from '@stripe/stripe-react-native';
+
+import {createPaymentIntent} from '../src/graphql/mutations.ts';
+import {AccountInfo} from '../src/models/index.js'
 
 import SummaryScreen from './summary.tsx';
 
 const CheckOut = (props, {navigation}) =>{
+
+//for userSub
+const [user, setUser] = useState<String | null>(null);
+
 const [fname, setFname] = useState<String>('');
 const [lname, setLname] = useState<String>('');
-const [phone, setPhone] = useState(0);
+const [phone, setPhone] = useState<String | null>(null);
 const [email, setEmail] = useState<String>('');
 const [address, setAddress] = useState<String>('');
 const [address2, setAddress2] = useState<String>('');
@@ -19,13 +27,27 @@ const [city, setCity] = useState<String>('');
 const [state, setState] = useState<String>('');
 const [zip, setZip] = useState<String>('');
 
+//need to keep total amount in cents
+const totalAmount = props.route.params?.totalCost * 100;
+
 const [Saddress, setSAddress] = useState<String>('');
 const [Saddress2, setSAddress2] = useState<String>('');
 const [Scity, setSCity] = useState<String>('');
 const [Sstate, setSState] = useState<String>('');
 const [Szip, setSZip] = useState<String>('');
 
+//For saving shipping address once saveOrder is executed
+const [shippingInfo, setShippingInfo] = useState({})
+
+const [newOrder, setNewOrder] = useState<Order[]>([])
+
+//if shipping address is the same as the pre-initialized address, displayShipping is false
 const [displayShipping, setDisplayShipping] = useState(false);
+const [clientSecret, setClientSecret] = useState<String | null>(null);
+
+const amount = Math.floor(props.route.params?.totalCost * 100 || 0) ;
+
+const {initPaymentSheet, presentPaymentSheet} = useStripe();
 
 const {totalQuantity} = props;
 
@@ -43,11 +65,119 @@ const handleZip = (val, dispatch) =>{
     }
 }
 
+//request payment intent from backend and retrieve secret_client
+const fetchPaymentIntent = async () =>{
+    const response = await API.graphql(
+        graphqlOperation(createPaymentIntent, {amount}),
+    );
+    setClientSecret(response.data.createPaymentIntent.clientSecret);
+}
+
+const initializePaymentSheet = async () => {
+    if(!clientSecret){
+        return;
+    }
+    const { error } = await initPaymentSheet({
+        merchantDisplayName: `${fname} ${lname}`,
+        paymentIntentClientSecret: clientSecret,
+    });
+    if(error) {
+        Alert.alert(error)
+    }
+}
+
+//retrieves existing personal information about the user
+const retrieveUser = async () =>{
+     const userID = await Auth.currentAuthenticatedUser()
+     setUser(userID);
+     const currentUser = await DataStore.query(AccountInfo, val => val.userSub('eq', userID.attributes.sub))
+     if(currentUser.length > 0){
+        setFname(currentUser[0].firstName)
+        setLname(currentUser[0].lastName)
+        setPhone(currentUser[0].phoneNumber)
+        setAddress(currentUser[0].address)
+        setAddress2(currentUser[0].address2)
+        setCity(currentUser[0].city)
+        setState(currentUser[0].state)
+        setZip(currentUser[0].zipcode)
+        setEmail(userID.attributes.email)
+     }
+}
+/*
+const openPaymentSheet = async () =>{
+    if(!clientSecret)
+        return;
+    const { error } = await presentPaymentSheet({clientSecret})
+    if (error) {
+      Alert.alert(`Error code: ${error.code}`, error.message);
+    } else {
+      saveOrder();
+      Alert.alert('Success', 'Your payment is confirmed!');
+    }
+
+}*/
+
+const openPaymentSheet = async () =>{
+    saveOrder();
+}
+
+const saveOrder = async () =>{
+//if initial address is not the same as the shipping address
+if(displayShipping){
+await DataStore.save(
+        new Order ({
+        userSub: user.attributes.sub,
+        firstName: fname,
+        lastName: lname,
+        phoneNumber: phone,
+        address: Saddress,
+        address2: Saddress2,
+        city: Scity,
+        state: Sstate,
+        zipcode: Szip,
+})).then(setNewOrder)
+}
+//if the initial address is the same as the shipping address
+else {
+await DataStore.save(
+        new Order ({
+        userSub: user.attributes.sub,
+        firstName: fname,
+        lastName: lname,
+        phoneNumber: phone,
+        address: address,
+        address2: address2,
+        city: city,
+        state: state,
+        zipcode: zip,
+})).then(setNewOrder)
+}
+
+const cart = await DataStore.query(CartProduct, val => val.userSub("eq", user.attributes.sub)).then(async val => {
+    await DataStore.save(new OrderProduct({
+        quantity: val.quantity,
+        option: val.option,
+        productID: val.productID,
+        orderID: newOrder.id,
+    }))
+})
+}
+
+useEffect(()=>{
+    retrieveUser();
+    fetchPaymentIntent();
+},[])
+
+useEffect(()=>{
+    initializePaymentSheet();
+}, [clientSecret] )
+
 return(
 <ScrollView>
     <View style = {styles.container}>
         <View style = {{alignItems: 'center'}}><Text style = {styles.h1Title}>Fill in your information</Text></View>
         <Text>Total items in cart: {totalQuantity ? totalQuantity : null}</Text>
+        <Text>Total Cost: ${props.route.params.totalCost ? props.route.params.totalCost : 0}</Text>
         <Text style = {styles.subtitle}></Text>
         <View style = {styles.nameContainer}>
             <View style = {styles.inputContainer}>
@@ -78,7 +208,7 @@ return(
            <View style = {styles.phoneContainer}>
                   <TextInput
                       placeholder = 'Phone number'
-                      value = {phone.toString()}
+                      value = {phone ? phone.toString() : null}
                       onChangeText = {val => setPhone(val)}
                       style = {styles.textInput}
                       keyboardType = 'numeric'
@@ -150,7 +280,7 @@ return(
                 <TextInput
                     placeholder = 'Address 1'
                     value = {Saddress}
-                    onChangeText = {val => setSAdress(val)}
+                    onChangeText = {val => setSAddress(val)}
                     style = {styles.textInput}
                 />
         </View>
@@ -158,7 +288,7 @@ return(
                 <TextInput
                     placeholder = 'Address 2'
                     value = {Saddress2}
-                    onChangeText = {val => setSAdress2(val)}
+                    onChangeText = {val => setSAddress2(val)}
                     style = {styles.textInput}
                 />
         </View>
@@ -193,8 +323,8 @@ return(
            :
            <View></View>
 }
-        <TouchableOpacity style = {styles.actionButton} onPress = {proceed}>
-            <View><Text>Next</Text></View>
+        <TouchableOpacity style = {styles.actionButton} onPress = {openPaymentSheet}>
+            <View><Text>Make Payment</Text></View>
         </TouchableOpacity>
     </View>
 </ScrollView>

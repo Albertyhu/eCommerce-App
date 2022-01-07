@@ -37,7 +37,13 @@ return(
 )
 }
 
+
+export const CalcTotalCost = data => {
+     return Math.round((data.reduce((previous, current)=>{ return previous + (current.quantity * current.price)}, 0)) * 100) / 100
+}
+
 const renderHeader = (item, navigation) =>{
+
 return(
     <View styles = {styles.checkoutContainer}>
         {item.length ?
@@ -47,7 +53,7 @@ return(
                 <Text>There are currently no items in the cart</Text>
             </View>
             }
-        <TouchableOpacity onPress = {()=>{navigation.navigate('CheckOutScreen')}}>
+        <TouchableOpacity onPress = {()=>{navigation.navigate('CheckOutScreen', {totalCost: CalcTotalCost(item)})}}>
             <View style = {styles.checkoutButton}>
                 <Text style = {styles.checkoutButtonText}>Proceed to Check Out</Text>
             </View>

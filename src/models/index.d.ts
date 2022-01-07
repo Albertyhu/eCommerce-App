@@ -2,7 +2,10 @@ import { ModelInit, MutableModel, PersistentModelConstructor } from "@aws-amplif
 
 
 
-
+export declare class PaymentIntent {
+  readonly clientSecret: string;
+  constructor(init: ModelInit<PaymentIntent>);
+}
 
 type ProductMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
@@ -59,7 +62,7 @@ export declare class Order {
   readonly userSub: string;
   readonly firstName: string;
   readonly lastName: string;
-  readonly phoneNumber?: number;
+  readonly phoneNumber?: string;
   readonly address?: string;
   readonly address2?: string;
   readonly city?: string;
