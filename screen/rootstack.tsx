@@ -105,7 +105,7 @@ const navi = useNavigation();
                     }}
         />
         <Stack.Screen name='SummaryScreen' component = {SummaryScreen} options = {{
-            title: "Confirmation",
+            title: "Summary of Order",
             headerLeft: ()=>(<Icon name = 'ios-menu' color = '#000' size = {25} onPress = {props.navigation.openDrawer} style = {styles.menuButton}/> ),
             headerRight: ()=>( <TouchableOpacity style = {styles.backButton} onPress = {() =>props.navigation.goBack()}>
                                           <View>

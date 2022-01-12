@@ -11,6 +11,7 @@ import {createPaymentIntent} from '../src/graphql/mutations.ts';
 import {AccountInfo} from '../src/models/index.js'
 
 import SummaryScreen from './summary.tsx';
+import Home from './home.tsx';
 
 const CheckOut = (props, {navigation}) =>{
 
@@ -44,6 +45,9 @@ const [newOrder, setNewOrder] = useState<Order[]>([])
 //if shipping address is the same as the pre-initialized address, displayShipping is false
 const [displayShipping, setDisplayShipping] = useState(false);
 const [clientSecret, setClientSecret] = useState<String | null>(null);
+
+//For storing the data of retrieved OrderProduct data into state object
+const [state_orderProducts, setOrder] = useState<OrderProduct[]>([]);
 
 const amount = Math.floor(props.route.params?.totalCost * 100 || 0) ;
 
@@ -152,15 +156,32 @@ await DataStore.save(
         zipcode: zip,
 })).then(setNewOrder)
 }
+/*
+if(newOrder){
+    console.log(newOrder.id)
+}
+else{
+    console.log('It didn\'t work')
+}
+*/
 
-const cart = await DataStore.query(CartProduct, val => val.userSub("eq", user.attributes.sub)).then(async val => {
-    await DataStore.save(new OrderProduct({
-        quantity: val.quantity,
-        option: val.option,
-        productID: val.productID,
-        orderID: newOrder.id,
-    }))
-})
+const cartItems = await DataStore.query(CartProduct, val => val.userSub("eq", user.attributes.sub))
+
+await Promise.all(cartItems.map(async val => {
+         if(newOrder.id){
+             await DataStore.save(
+             new OrderProduct({
+                 quantity: val.quantity,
+                 option: val.option,
+                 productID: val.productID,
+                 orderID: newOrder.id,
+             }))
+            }
+     }))
+
+    //await Promise.all(cartItems.map(cartItem => DataStore.delete(cartItem)));
+    props.navigation.navigate("SummaryScreen", {OrderID: newOrder.id, totalPaid: props.route.params.totalCost, totalItems: totalQuantity});
+
 }
 
 useEffect(()=>{

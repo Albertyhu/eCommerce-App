@@ -23,6 +23,11 @@ type CartProduct @model @auth(rules: [{ allow: public }]) {
   quantity: Int!
   option: String
 
+#The following two lines dictates that any CartProduct item will have access to the corresponding data of the Product Item
+#So, if you retrieve data of a CartProduct, you can also retrieve the corresponding Product data
+#For example, cart_product.userSub, cart_product.quantity, and cart_product.option are attributes of the CartProduct model
+#while, cart_product.product.title, cart_product.product.description, and cart_product.product.price are attributes of the Product model
+
   productID: ID!
   product: Product @hasOne(fields: ["productID"])
 }

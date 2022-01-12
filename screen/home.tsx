@@ -114,6 +114,8 @@ const [query, setQuery] = useState<String>('')
 const fetchProducts = async () =>{
     const results = await DataStore.query(Product);
     setProducts(results)
+
+    //for the Search Bar
     setSR(results)
     /*
         //Alternatively, this also works the same way
@@ -122,6 +124,7 @@ const fetchProducts = async () =>{
 
     }
 
+//function for the Search Bar
 const filterData = () => {
 if(products){
     if(query.length !== 0){
