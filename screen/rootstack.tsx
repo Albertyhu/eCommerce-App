@@ -19,6 +19,7 @@ import SearchScreen from './search.js';
 import EditProductScreen from './EditProduct.tsx';
 import SummaryScreen from './summary.tsx';
 import AccountScreen from './Account.tsx';
+import OrderHistoryScreen from './OrderHistory.tsx';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -106,6 +107,16 @@ const navi = useNavigation();
         />
         <Stack.Screen name='SummaryScreen' component = {SummaryScreen} options = {{
             title: "Summary of Order",
+            headerLeft: ()=>(<Icon name = 'ios-menu' color = '#000' size = {25} onPress = {props.navigation.openDrawer} style = {styles.menuButton}/> ),
+            headerRight: ()=>( <TouchableOpacity style = {styles.backButton} onPress = {() =>props.navigation.goBack()}>
+                                          <View>
+                                              <Text style = {styles.backButtonText}>Go Back</Text>
+                                          </View>
+                            </TouchableOpacity>)
+                     }}
+         />
+        <Stack.Screen name='OrderHistoryScreen' component = {OrderHistoryScreen} options = {{
+            title: "Order History",
             headerLeft: ()=>(<Icon name = 'ios-menu' color = '#000' size = {25} onPress = {props.navigation.openDrawer} style = {styles.menuButton}/> ),
             headerRight: ()=>( <TouchableOpacity style = {styles.backButton} onPress = {() =>props.navigation.goBack()}>
                                           <View>

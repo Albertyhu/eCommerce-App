@@ -179,7 +179,7 @@ await Promise.all(cartItems.map(async val => {
             }
      }))
 
-    //await Promise.all(cartItems.map(cartItem => DataStore.delete(cartItem)));
+    await Promise.all(cartItems.map(cartItem => DataStore.delete(cartItem)));
     props.navigation.navigate("SummaryScreen", {OrderID: newOrder.id, totalPaid: props.route.params.totalCost, totalItems: totalQuantity});
 
 }

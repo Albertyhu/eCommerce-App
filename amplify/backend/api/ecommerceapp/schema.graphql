@@ -43,7 +43,7 @@ type Order @model @auth(rules: [{ allow: public }]){
     city: String
     state: String
     zipcode: String
-
+    dateCreated: AWSDateTime
 }
 
 type OrderProduct @model @auth(rules: [{allow:public}]){
@@ -52,9 +52,11 @@ type OrderProduct @model @auth(rules: [{allow:public}]){
     option: String
     productID: ID!
     product: Product @hasOne(fields: ["productID"])
+    dateOrdered: AWSDateTime
 
     orderID: ID!
     order: Order @hasOne(fields: ["orderID"])
+
 }
 
 type AccountInfo @model @auth(rules:[{allow: public}]){

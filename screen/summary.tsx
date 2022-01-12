@@ -4,7 +4,6 @@ import {DataStore, Auth} from 'aws-amplify';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Cart, Product, OrderProduct, Order } from '../src/models/index.js';
-import {useNavigation} from '@react-navigation/native';
 
 import ProductScreen from './product.tsx';
 
@@ -17,8 +16,8 @@ return(
     </View>
     {order_id ?
         <View style = {styles.orderInformation}>
-            <View style = {{flexDirection: 'row'}}><Text>Order ID: </Text><Text>{order_id.id}</Text></View>
-            <Text style = {styles.subtitle}>Shipping Address</Text>
+            <View style = {{flexDirection: 'row'}}><Text style = {{fontWeight: 'bold'}}>Order ID: </Text><Text>{order_id.id}</Text></View>
+            <Text style = {styles.subtitle}>Shipping To:</Text>
             <Text>{order_id.address}</Text>
             {order_id.address2 ?
                 <Text>{order_id.address2}</Text>
@@ -67,14 +66,6 @@ const [order_id, setOrderID] = useState<Order[]>([]);
 //Data of all OrderProduct items
 const [orderItems, setOrderItems] = useState<OrderProduct[]>([]);
 
-//Data of all Product items
-const [productData, setProduct] = useState<Product[]>([]);
-
-//Combination of data from OrderProduct and Product database to be displayed with the flatList
-const [listItems, setList] = useState([])
-
-const navigation = useNavigation();
-
 const retrieveOrder = async () =>{
     const orderData = await DataStore.query(OrderProduct, val =>{val.orderID("eq", props.route.params.OrderID)});
     //I have to use the following array filter code because for some reason, the above code retrieves all the OrderProduct Item regardless of whether or not they have the correct OrderID
@@ -88,25 +79,12 @@ const retrieveOrderInfo = async () =>{
    // console.log(props.route.params.TotalPaid)
 }
 
-const retrieveProduct = async () =>{
-    await DataStore.query(Product).then(setProduct);
-}
-
-const createList = () =>{
-    const newList = orderItems.map(val =>{
-     const productItem = productData.find(item => item.id === val.ProductID)
-    //     console.log(productItem)
-    })
-
-    //console.log(newList);
-}
 
 useEffect(()=>{
     retrieveOrderInfo();
     retrieveOrder();
-  
-  //This is the not necessary
-  //  retrieveProduct();
+
+
 }, [])
 
 return(
@@ -170,6 +148,9 @@ productContainer:{
 },
 row:{
     flexDirection: 'row',
+},
+subtitle:{
+    fontWeight: 'bold',
 },
 textInput:{
     paddingVertical: 10,

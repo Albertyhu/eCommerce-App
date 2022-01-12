@@ -284,6 +284,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "dateCreated": {
+                    "name": "dateCreated",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -370,6 +377,13 @@ export const schema = {
                         "associatedWith": "id",
                         "targetName": "productID"
                     }
+                },
+                "dateOrdered": {
+                    "name": "dateOrdered",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": []
                 },
                 "orderID": {
                     "name": "orderID",
@@ -572,5 +586,5 @@ export const schema = {
             }
         }
     },
-    "version": "dfb1982f9af4e50b37f78388f50b69a8"
+    "version": "97b8bbfb9719dd0df92bec22f846c5fc"
 };

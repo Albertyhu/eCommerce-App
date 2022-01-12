@@ -68,6 +68,7 @@ export declare class Order {
   readonly city?: string;
   readonly state?: string;
   readonly zipcode?: string;
+  readonly dateCreated?: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<Order, OrderMetaData>);
@@ -80,6 +81,7 @@ export declare class OrderProduct {
   readonly option?: string;
   readonly productID: string;
   readonly product?: Product;
+  readonly dateOrdered?: string;
   readonly orderID: string;
   readonly order?: Order;
   readonly createdAt?: string;

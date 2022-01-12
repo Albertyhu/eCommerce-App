@@ -205,6 +205,7 @@ export const createOrder = /* GraphQL */ `
       city
       state
       zipcode
+      dateCreated
       createdAt
       updatedAt
       _version
@@ -229,6 +230,7 @@ export const updateOrder = /* GraphQL */ `
       city
       state
       zipcode
+      dateCreated
       createdAt
       updatedAt
       _version
@@ -253,6 +255,7 @@ export const deleteOrder = /* GraphQL */ `
       city
       state
       zipcode
+      dateCreated
       createdAt
       updatedAt
       _version
@@ -288,6 +291,7 @@ export const createOrderProduct = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      dateOrdered
       orderID
       order {
         id
@@ -300,6 +304,7 @@ export const createOrderProduct = /* GraphQL */ `
         city
         state
         zipcode
+        dateCreated
         createdAt
         updatedAt
         _version
@@ -341,6 +346,7 @@ export const updateOrderProduct = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      dateOrdered
       orderID
       order {
         id
@@ -353,6 +359,7 @@ export const updateOrderProduct = /* GraphQL */ `
         city
         state
         zipcode
+        dateCreated
         createdAt
         updatedAt
         _version
@@ -394,6 +401,7 @@ export const deleteOrderProduct = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
+      dateOrdered
       orderID
       order {
         id
@@ -406,6 +414,7 @@ export const deleteOrderProduct = /* GraphQL */ `
         city
         state
         zipcode
+        dateCreated
         createdAt
         updatedAt
         _version

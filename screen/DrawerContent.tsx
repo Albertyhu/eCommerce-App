@@ -19,6 +19,7 @@ import ProductScreen from './product.tsx';
 import ShoppingCartScreen from './ShoppingCart.tsx';
 import SearchScreen from './search.js';
 import AccountScreen from './Account.tsx';
+import OrderHistoryScreen from './OrderHistory.tsx';
 
 const popAction = StackActions.pop(1);
 
@@ -106,6 +107,19 @@ return (
                )}
                label = 'Account'
                onPress = {()=>{props.navigation.navigate('AccountScreen')}}
+               style = {styles.drawerItem}
+
+           />
+           <DrawerItem
+               icon={({color, size}) => (
+                   <Icon
+                       name='time-outline'
+                       color={color}
+                       size={size}
+                   />
+               )}
+               label = 'Order History'
+               onPress = {()=>{props.navigation.navigate('OrderHistoryScreen')}}
                style = {styles.drawerItem}
 
            />
